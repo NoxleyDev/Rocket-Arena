@@ -1298,9 +1298,13 @@ this.replayCursor = 0;
 
       for (let i = 0; i < requestedSteps; i++) {
         this._stepSingleSubStep(stepDt);
-        if (this.matchState !== MATCH_STATES.INSTANT_REPLAY && this.matchState !== MATCH_STATES.MAIN_MENU) {
-          this._recordReplaySnapshot();
-        }
+        if (
+  this.matchState !== MATCH_STATES.INSTANT_REPLAY &&
+  this.matchState !== MATCH_STATES.MAIN_MENU &&
+  !this.goalScoredThisRally
+) {
+  this._recordReplaySnapshot();
+}
         subSteps++;
       }
     } else {
@@ -1315,9 +1319,13 @@ this.replayCursor = 0;
       while (this.physicsAccumulator + 1e-10 >= fixedH && subSteps < this.maxPhysicsSubSteps) {
         this._stepSingleSubStep(fixedH);
         this.physicsAccumulator -= fixedH;
-        if (this.matchState !== MATCH_STATES.INSTANT_REPLAY && this.matchState !== MATCH_STATES.MAIN_MENU) {
-          this._recordReplaySnapshot();
-        }
+        if (
+  this.matchState !== MATCH_STATES.INSTANT_REPLAY &&
+  this.matchState !== MATCH_STATES.MAIN_MENU &&
+  !this.goalScoredThisRally
+) {
+  this._recordReplaySnapshot();
+}
         subSteps++;
       }
     }
