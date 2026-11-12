@@ -1562,6 +1562,52 @@ this.replayCursor = 0;
     return history;
   }
 
+  _getGoalReplayFrames() {
+  const history = this._getOrderedReplayHistory();
+
+  if (history.length < 2) return history;
+
+  const oldestTime = history[0].timestamp;
+  const newestTime = history[history.length - 1].timestamp;
+
+  const goalTime = Number.isFinite(this.replayGoalTime)
+    ? this.replayGoalTime
+    : newestTime;
+
+  const touchTime = Number.isFinite(this.replayScorerTouchTime)
+    ? this.replayScorerTouchTime
+    : goalTime - 2.5;
+
+  // Start at the scorer's final touch, limited by available history.
+  const startTime = clamp(touchTime, oldestTime, goalTime);
+
+  let startIndex = 0;
+
+  while (
+    startIndex < history.length - 1 &&
+    history[startIndex].timestamp < startTime - 1e-8
+  ) {
+    startIndex++;
+  }
+
+  let endIndex = history.length - 1;
+
+  while (
+    endIndex > startIndex &&
+    history[endIndex].timestamp > goalTime + 1e-8
+  ) {
+    endIndex--;
+  }
+
+  // Keep at least one second of footage if the touch and goal
+  // happened almost simultaneously.
+  if (endIndex - startIndex < 1) {
+    startIndex = Math.max(0, endIndex - 120);
+  }
+
+  return history.slice(startIndex, endIndex + 1);
+}
+
   _stepInstantReplay(dt) {
     this.stateTimer -= dt;
     const frames = this.replayPlaybackFrames || (this.replayPlaybackFrames = this._getOrderedReplayHistory());
