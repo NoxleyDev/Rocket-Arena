@@ -1057,12 +1057,19 @@ this.replayCursor = 0;
     this.replayPlaybackFrames = null;
     this.currentReplayFrame = null;
     this.replayCursor = 0;
+    this.replayGoalTime = null;
+    this.replayScorerTouchTime = null;
+    this.replayPlaybackDuration = this.replayDuration;
     this._setupCarsForMode(mode);
     this._syncGlobalSimState();
   }
 
   resetKickoff() {
     this.goalScoredThisRally = false;
+    this.replayGoalTime = null;
+    this.replayScorerTouchTime = null;
+    this.replayPlaybackDuration = this.replayDuration;
+    this.ball.lastTouchTime = -999;
     this.activeChoreography = null;
 
     // [SPEC PATCH #14] Guarantee AI cars are populated in non-freeplay modes
