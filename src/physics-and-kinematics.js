@@ -2876,9 +2876,22 @@ this.replayCursor = 0;
     }
   }
 
-  _triggerGoalExplosion(scoringTeam) {
-    if (this.goalScoredThisRally) return;
-    this.goalScoredThisRally = true;
+ _triggerGoalExplosion(scoringTeam) {
+  if (this.goalScoredThisRally) return;
+
+  // Save the final goal frame before freezing replay recording.
+  this._recordReplaySnapshot();
+
+  this.replayGoalTime = this.simulationTime;
+
+  const lastTouchTime = this.ball.lastTouchTime;
+
+  this.replayScorerTouchTime =
+    Number.isFinite(lastTouchTime) && lastTouchTime > -100
+      ? lastTouchTime
+      : Math.max(0, this.simulationTime - 2.5);
+
+  this.goalScoredThisRally = true;
 
     if (scoringTeam === 'blue') {
       this.score.blue += 1;
