@@ -1491,10 +1491,22 @@ this.replayCursor = 0;
           return;
         }
         this.matchState = MATCH_STATES.INSTANT_REPLAY;
-        this.stateTimer = this.replayDuration;
-        this.replayCursor = 0;
-        this.replayPlaybackFrames = this._getOrderedReplayHistory();
-        this.emitEvent('REPLAY_START', { goalInfo: this.lastGoalInfo });
+
+this.replayCursor = 0;
+this.replayPlaybackFrames = this._getGoalReplayFrames();
+
+const frames = this.replayPlaybackFrames;
+
+const clipDuration = frames.length > 1
+  ? frames[frames.length - 1].timestamp - frames[0].timestamp
+  : 0;
+
+this.replayPlaybackDuration = Math.max(1.6, clipDuration);
+this.stateTimer = this.replayPlaybackDuration;
+
+this.emitEvent('REPLAY_START', {
+  goalInfo: this.lastGoalInfo
+});
       }
     } else if (this.matchState === MATCH_STATES.MATCH_OVER) {
       this.stateTimer -= dt;
