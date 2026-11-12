@@ -142,29 +142,6 @@ python3 scripts/bundle_index.py
 El script actualiza `dist/app-bundle.js` e integra el código en
 `index.html`.
 
-## Mejoras técnicas de esta versión
-
--   Corregida la proyección del punto de contacto entre el coche y la
-    pelota en el eje Z.
--   Simulación física con acumulador de paso fijo a **120 Hz**,
-    independiente de la frecuencia de pantalla.
--   Repeticiones de gol con seis segundos de historial temporal e
-    interpolación entre muestras.
--   Eliminada la línea de tiempo de repetición duplicada.
--   Suavizado visual del vehículo usando el delta real del fotograma.
--   Actualización del público limitada para reducir el trabajo de CPU y
-    las transferencias a GPU.
--   Evitadas subidas redundantes de búferes de partículas y marcas de
-    derrape cuando no hay elementos activos.
--   Ajustes del renderizador para reducir el coste de memoria y adaptar
-    la resolución a la pantalla.
--   Añadidos controles mediante Gamepad API y controles táctiles
-    compatibles.
--   Evitadas activaciones repetidas de acciones de teclado que solo
-    deben ejecutarse una vez.
--   Mejorados el zoom de página y los nombres accesibles de los
-    controles deslizantes.
-
 ## Estado y limitaciones conocidas
 
 El proyecto ha pasado comprobaciones estáticas de sintaxis y
