@@ -1624,7 +1624,16 @@ this.emitEvent('REPLAY_START', {
     this.stateTimer -= dt;
     const frames = this.replayPlaybackFrames || (this.replayPlaybackFrames = this._getOrderedReplayHistory());
     if (frames.length > 0) {
-      const progress = clamp(1.0 - this.stateTimer / this.replayDuration, 0, 1);
+      const playbackDuration = Math.max(
+  this.fixedStep,
+  this.replayPlaybackDuration || this.replayDuration
+);
+
+const progress = clamp(
+  1.0 - this.stateTimer / playbackDuration,
+  0,
+  1
+);
       const firstTime = frames[0].timestamp;
       const lastTime = frames[frames.length - 1].timestamp;
       const targetTime = firstTime + (lastTime - firstTime) * progress;
