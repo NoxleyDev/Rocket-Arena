@@ -1628,7 +1628,7 @@ function buildStadiumBowlAndCrowd(THREE, rootGroup) {
   }
 
   // 2. 4,000 Instanced Crowd Light-Sticks (Blue-biased on -Z, Orange-biased on +Z)
-  const crowdCount = 4000;
+  const crowdCount = 2500;
   const stickGeo = new THREE.CylinderGeometry(0.18, 0.14, 1.15, 6);
   const stickMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
   const crowdMesh = new THREE.InstancedMesh(stickGeo, stickMat, crowdCount);
