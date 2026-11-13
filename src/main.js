@@ -860,8 +860,21 @@ export function initRocketLeagueApp() {
 
         arena.update(safeDt, window.__SIM_STATE__);
         vfx.update(safeDt, physics.cars, physics.ball);
-        cameraDirector.update(safeDt, physics.playerCar || physics.cars[0], physics.ball, {
-          matchState: physics.matchState
+        const replayScorerCar =
+  physics.matchState === MATCH_STATES.INSTANT_REPLAY
+    ? physics.cars.find(
+        car => car.id === physics.lastGoalInfo?.scorerCarId
+      ) || null
+    : null;
+
+const cameraCar =
+  physics.matchState === MATCH_STATES.INSTANT_REPLAY
+    ? replayScorerCar
+    : (physics.playerCar || physics.cars[0]);
+
+cameraDirector.update(safeDt, cameraCar, physics.ball, {
+  matchState: physics.matchState
+});
         });
         audio.update(safeDt, physics.playerCar || physics.cars[0]);
         hud.update(window.__SIM_STATE__, window.__MOTION_TELEMETRY__);
