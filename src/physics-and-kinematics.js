@@ -3013,6 +3013,7 @@ const progress = clamp(
     this.lastGoalInfo = {
       scoringTeam,
       scorerCarId: this.ball.lastTouchCarId || (scoringTeam === 'blue' ? 'blue_0' : 'orange_0'),
+      scorerTouchTime: this.replayScorerTouchTime,
       shotSpeedKph,
       position: explosionCenter,
       score: { ...this.score }
