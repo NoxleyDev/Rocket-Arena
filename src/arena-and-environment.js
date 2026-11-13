@@ -2021,7 +2021,7 @@ export function createArenaEnvironment(THREE, scene) {
   let goalPulseTeam = 0.0; // -1 Blue, +1 Orange
   let crowdUpdateAccumulator = 0.0;
   let lastCrowdCelebrationState = false;
-  const crowdUpdateInterval = 1 / 30;
+  const crowdUpdateInterval = 1 / 20;
 
   function triggerGoalPulse(team) {
     goalPulseIntensity = 1.0;
