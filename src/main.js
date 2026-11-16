@@ -331,7 +331,8 @@ export function initRocketLeagueApp() {
       hud._syncCameraBadge(newMode);
     },
     onToggleMute: (muted) => {
-      audio.setMuted(muted);
+    audio.setMuted(muted);
+    musicPlayer.setMuted(muted);
     },
     onTogglePause: (forceState = null) => {
       togglePause(forceState);
