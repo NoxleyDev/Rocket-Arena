@@ -688,9 +688,10 @@ computeReplayCamPose(carState, ballState, dt = 1 / 60) {
       if (activeMode === 'menu') {
         desiredPose = this.computeMenuCamPose(safeDt);
         desiredFov = 58.0;
-      } else if (activeMode === 'replay') {
-        desiredPose = this.computeReplayCamPose(car, ball, safeDt);
-        desiredFov = 58.0;
+     } else if (activeMode === 'replay') {
+  desiredPose = this.computeReplayCamPose(car, ball, safeDt);
+  desiredFov = desiredPose.fov || 58.0;
+}
       } else if (activeMode === 'car') {
         desiredPose = this.computeCarCamPose(car, safeDt);
       } else {
