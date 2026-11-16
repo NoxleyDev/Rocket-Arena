@@ -1746,9 +1746,23 @@ const progress = clamp(
     updateCarBasis(car);
     const centerSdf = this.evalArenaSDF(car.position.x, car.position.y, car.position.z);
     const upDotCenterN = car.up.x * centerSdf.nx + car.up.y * centerSdf.ny + car.up.z * centerSdf.nz;
-    if (upDotCenterN >= 0.65 && centerSdf.surfaceType !== 'floor' && centerSdf.surfaceType !== 'goal') {
-      return { minDist: centerSdf.dist, nx: centerSdf.nx, ny: centerSdf.ny, nz: centerSdf.nz };
-    }
+    const isGoalSurface =
+  centerSdf.surfaceType === 'goal' ||
+  centerSdf.surfaceType === 'goal_box';
+
+if (
+  upDotCenterN >= 0.65 &&
+  centerSdf.surfaceType !== 'floor' &&
+  !isGoalSurface
+) {
+  return {
+    minDist: centerSdf.dist,
+    nx: centerSdf.nx,
+    ny: centerSdf.ny,
+    nz: centerSdf.nz
+  };
+}
+
     let minDist = Infinity;
     let minNX = 0, minNY = 1, minNZ = 0;
 
