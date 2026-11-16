@@ -450,39 +450,114 @@ export class CameraDirector {
     };
   }
 
-  computeReplayCamPose(carState, ballState, dt = 1 / 60) {
-    const bPos = extractPosition(ballState, { x: 0, y: 3.2, z: 0 });
-    const cPos = extractPosition(carState, { x: 0, y: 0.42, z: 0 });
-    this.replayOrbitAngle += dt * 0.38;
+  
+computeReplayCamPose(carState, ballState, dt = 1 / 60) {
+  const bPos = extractPosition(ballState, {
+    x: 0,
+    y: 3.2,
+    z: 0
+  });
 
-    // Cinematic sideline/goal TV broadcast angle framing both the scorer and the goal mouth
-    const goalSign = bPos.z >= 0 ? 1 : -1;
-    const anchorZ = clamp(bPos.z, -92, 92);
-    const camX = clamp(bPos.x * 0.45 + Math.cos(this.replayOrbitAngle) * 22.0, -52, 52);
-    const camY = clamp(bPos.y * 0.55 + 6.2, 3.2, 22.0);
-    const camZ = clamp(anchorZ - goalSign * 19.5 + Math.sin(this.replayOrbitAngle) * 6.0, -94, 94);
+  const hasScorer = Boolean(
+    carState &&
+    carState.position &&
+    Number.isFinite(carState.position.x)
+  );
 
-    let fCamX = camX,
-      fCamY = camY,
-      fCamZ = camZ;
-    const sdfFn = this.evalArenaSDF || fallbackEvalArenaSDF;
-    const sdf = sdfFn(fCamX, fCamY, fCamZ);
-    if (sdf && Number.isFinite(sdf.dist) && sdf.dist < 2.2) {
-      const push = 2.2 - sdf.dist;
-      fCamX += (sdf.nx || 0) * push;
-      fCamY += (sdf.ny || 0) * push;
-      fCamZ += (sdf.nz || 0) * push;
-    }
+  const cPos = extractPosition(carState, {
+    x: bPos.x,
+    y: bPos.y,
+    z: bPos.z
+  });
 
-    return {
-      position: { x: fCamX, y: fCamY, z: fCamZ },
-      lookAt: {
-        x: lerp(bPos.x, cPos.x, 0.22),
-        y: lerp(bPos.y, cPos.y + 0.8, 0.22),
-        z: lerp(bPos.z, cPos.z, 0.22)
-      }
-    };
+  // Distance between the ball and the goal scorer.
+  const dx = cPos.x - bPos.x;
+  const dy = cPos.y - bPos.y;
+  const dz = cPos.z - bPos.z;
+
+  const scorerDistance = hasScorer
+    ? Math.hypot(dx, dy, dz)
+    : 0;
+
+  // The ball always has priority.
+  // The scorer can influence framing by a maximum of 12%.
+  const scorerWeight = hasScorer
+    ? clamp(0.12 * (1 - scorerDistance / 28), 0, 0.12)
+    : 0;
+
+  // Gradually widen the shot if the scorer is farther away.
+  const framingFactor = hasScorer
+    ? clamp((scorerDistance - 8) / 22, 0, 1)
+    : 0;
+
+  // Slower camera orbit for a more stable broadcast shot.
+  this.replayOrbitAngle += clamp(dt, 0.001, 0.05) * 0.18;
+
+  const goalSign = bPos.z >= 0 ? 1 : -1;
+  const anchorZ = clamp(bPos.z, -92, 92);
+
+  const cameraScale = 1 + framingFactor * 0.16;
+
+  // Camera follows the ball more directly.
+  const camX = clamp(
+    bPos.x * 0.82 +
+    Math.cos(this.replayOrbitAngle) * 22.0 * cameraScale,
+    -52,
+    52
+  );
+
+  const camY = clamp(
+    bPos.y * 0.70 +
+    6.0 +
+    framingFactor * 0.8,
+    3.2,
+    22.0
+  );
+
+  const camZ = clamp(
+    anchorZ -
+    goalSign * 19.5 * cameraScale +
+    Math.sin(this.replayOrbitAngle) * 6.0 * cameraScale,
+    -94,
+    94
+  );
+
+  let fCamX = camX;
+  let fCamY = camY;
+  let fCamZ = camZ;
+
+  const sdfFn = this.evalArenaSDF || fallbackEvalArenaSDF;
+  const sdf = sdfFn(fCamX, fCamY, fCamZ);
+
+  if (sdf && Number.isFinite(sdf.dist) && sdf.dist < 2.2) {
+    const push = 2.2 - sdf.dist;
+    fCamX += (sdf.nx || 0) * push;
+    fCamY += (sdf.ny || 0) * push;
+    fCamZ += (sdf.nz || 0) * push;
   }
+
+  // Focus remains almost entirely on the ball.
+  const focusX = lerp(bPos.x, cPos.x, scorerWeight);
+  const focusY = lerp(bPos.y, cPos.y + 0.8, scorerWeight);
+  const focusZ = lerp(bPos.z, cPos.z, scorerWeight);
+
+  return {
+    position: {
+      x: fCamX,
+      y: fCamY,
+      z: fCamZ
+    },
+
+    lookAt: {
+      x: focusX,
+      y: focusY,
+      z: focusZ
+    },
+
+    fov: 58.0 + framingFactor * 5.0
+  };
+}
+
 
   computeStudioCamPose(carState) {
     const cPos = extractPosition(carState, { x: 0, y: 0, z: 0 });
