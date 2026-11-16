@@ -122,6 +122,8 @@ export function initRocketLeagueApp() {
   const cameraDirector = new CameraDirector(camera, { evalArenaSDF });
   const vfx = new VFXManager(scene);
   const audio = new AudioSynthesizer();
+  const musicPlayer = new MusicPlayer({ volume: 0.28 });
+  musicPlayer.start();
 
   let studioMode = false;
   let studioAngle = 'front_34';
