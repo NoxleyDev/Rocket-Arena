@@ -712,8 +712,13 @@ computeReplayCamPose(carState, ballState, dt = 1 / 60) {
         desiredRoll = steerSign * 4.0 * DEG2RAD;
       }
 
-      const posSpring = activeMode === 'replay' || activeMode === 'menu' ? 10.0 : 16.5;
-      const lookSpring = activeMode === 'replay' || activeMode === 'menu' ? 14.0 : 22.0;
+     const posSpring = activeMode === 'replay'
+  ? 14.0
+  : activeMode === 'menu' ? 10.0 : 16.5;
+
+const lookSpring = activeMode === 'replay'
+  ? 22.0
+  : activeMode === 'menu' ? 14.0 : 22.0;
       const posAlpha = 1 - Math.exp(-posSpring * safeDt);
       const lookAlpha = 1 - Math.exp(-lookSpring * safeDt);
 
