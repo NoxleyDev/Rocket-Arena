@@ -28,6 +28,7 @@ import {
   HUDController
 } from './vfx-audio-and-ui.js';
 
+import { MusicPlayer } from './music-player.js';
 /**
  * @file src/main.js
  * @description Master Orchestrator for Rocket Arena, a browser-based 3D vehicular soccer game.
