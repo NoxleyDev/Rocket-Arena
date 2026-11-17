@@ -270,11 +270,32 @@ export function evalArenaSDF(x, y, z) {
   // -------------------------------------------------------------------------
   // REGION 1: Inside or penetrating the Recessed Goal Chamber (|z| > 100.0)
   // -------------------------------------------------------------------------
-  if (az > L && ax < gw + 4.0 && y < gh + 3.5) {
-    const dFloor = y;                  // y = 0.0, inward normal (0, +1, 0)
-    const dCeil = gh - y;              // y = 11.0, inward normal (0, -1, 0)
-    const dSide = gw - ax;             // |x| = 14.0, inward normal (-sx, 0, 0)
-    const dBack = (L + gd) - az;       // |z| = 112.0, inward normal (0, 0, -sz)
+    if (az > L && ax < gw + 4.0 && y < gh + 3.5) {
+    const dFloor = y;
+    const dCeil = gh - y;
+
+    // Rounded inside corners between the goal side walls and back wall.
+    const depth = az - L;
+    const cornerRadius = 2.0;
+    const cornerX = ax - (gw - cornerRadius);
+    const cornerDepth = depth - (gd - cornerRadius);
+
+    let dHorizontal;
+    let horizontalNX = 0.0;
+    let horizontalNZ = 0.0;
+
+    if (cornerX > 0.0 && cornerDepth > 0.0) {
+      const cornerDistance = Math.hypot(cornerX, cornerDepth);
+      dHorizontal = cornerRadius - cornerDistance;
+      horizontalNX = -sx * cornerX / cornerDistance;
+      horizontalNZ = -sz * cornerDepth / cornerDistance;
+    } else if (gw - ax < gd - depth) {
+      dHorizontal = gw - ax;
+      horizontalNX = -sx;
+    } else {
+      dHorizontal = gd - depth;
+      horizontalNZ = -sz;
+    }
 
     let minDist = dFloor;
     let nx = 0.0;
@@ -287,6 +308,20 @@ export function evalArenaSDF(x, y, z) {
       ny = -1.0;
       nz = 0.0;
     }
+
+    if (dHorizontal < minDist) {
+      minDist = dHorizontal;
+      nx = horizontalNX;
+      ny = 0.0;
+      nz = horizontalNZ;
+    }
+
+    if (frameHit && frameHit.dist < minDist) {
+      return frameHit;
+    }
+
+    return { dist: minDist, nx, ny, nz, surfaceType: 'goal_box' };
+  }
     if (dSide < minDist) {
       minDist = dSide;
       nx = -sx;
