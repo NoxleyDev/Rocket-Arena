@@ -724,23 +724,23 @@ export class PhysicsWorld {
     this.playerCar = null;
     this._setupCarsForMode(this.mode);
 
-    // Timestamped replay history and playback.
-this.replayHistoryDuration = 8.0;
-this.replayDuration = 6.0;
-this.replayPlaybackDuration = this.replayDuration;
+        // Timestamped replay history and playback.
+    this.replayHistoryDuration = 8.0;
+    this.replayDuration = 6.0;
+    this.replayPlaybackDuration = this.replayDuration;
 
-this.replayGoalTime = null;
-this.replayScorerTouchTime = null;
+    this.replayGoalTime = null;
+    this.replayScorerTouchTime = null;
 
-this.maxReplayFrames =
-  Math.ceil(this.replayHistoryDuration / this.fixedStep) + 1;
+    this.maxReplayFrames =
+      Math.ceil(this.replayHistoryDuration / this.fixedStep) + 1;
 
-this.replayBuffer = new Array(this.maxReplayFrames);
-this.replayWriteIndex = 0;
-this.replayCount = 0;
-this.replayPlaybackFrames = null;
-this.currentReplayFrame = null;
-this.replayCursor = 0;
+    this.replayBuffer = new Array(this.maxReplayFrames);
+    this.replayWriteIndex = 0;
+    this.replayCount = 0;
+    this.replayPlaybackFrames = null;
+    this.currentReplayFrame = null;
+    this.replayCursor = 0;
     
     // 4-Phase Kinematic Choreographer & Autopilot State
     this.activeChoreography = null;
