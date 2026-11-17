@@ -666,8 +666,9 @@ export class PhysicsWorld {
       ...(options.mutators || {})
     };
 
-    // Match State & Regulation Clock
+        // Match State & Regulation Clock
     this.mode = options.mode || '2v2'; // '1v1', '2v2', '3v3', 'freeplay', 'autopilot'
+    this.fixedStep = 1 / 120; // <-- Añade esto
     this.matchState = MATCH_STATES.KICKOFF_COUNTDOWN;
     this.stateTimer = 3.0;
     this.countdownNumber = 3;
