@@ -61,6 +61,8 @@ const {
   AudioSynthesizer,
   HUDController
 } = window.RLModules.Presentation;
+
+const { MusicPlayer } = window.RLModules.Music;
 """
         code = preamble + "\n" + code
     return code
