@@ -912,8 +912,8 @@ const cameraCar =
 cameraDirector.update(safeDt, cameraCar, physics.ball, {
   matchState: physics.matchState
 });
-        });
-        audio.update(safeDt, physics.playerCar || physics.cars[0]);
+
+audio.update(safeDt, physics.playerCar || physics.cars[0]);
         hud.update(window.__SIM_STATE__, window.__MOTION_TELEMETRY__);
       }
     } else {
