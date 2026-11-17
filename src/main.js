@@ -608,12 +608,6 @@ if (inMainMenu || isPaused) return;
       if (studioMode) setStudioMode(false);
       const m = cameraDirector.toggleBallCam();
       hud._syncCameraBadge(m);
-    } else if (key === 'm') {
-      const muted = audio.toggleMute();
-      if (hud._els?.btnMute) {
-        hud._els.btnMute.textContent = muted ? '[M] Muted' : '[M] Mute';
-        hud._els.btnMute.classList.toggle('active', muted);
-      }
     } else if (key === 'r') {
       if (studioMode) setStudioMode(false);
       physics.resetKickoff();
