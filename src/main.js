@@ -539,15 +539,54 @@ export function initRocketLeagueApp() {
     }
 
     if (code === 'Tab') {
-      e.preventDefault();
-      if (!inMainMenu) {
-        if (isPaused) togglePause(false);
-        hud.toggleDrawer();
-      }
-      return;
-    }
+  e.preventDefault();
+  if (!inMainMenu) {
+    if (isPaused) togglePause(false);
+    hud.toggleDrawer();
+  }
+  return;
+}
 
-    if (inMainMenu || isPaused) return;
+// Background music controls.
+// These shortcuts work in the menu, during matches and while paused.
+
+if (code === 'KeyN') {
+  e.preventDefault();
+  musicPlayer.skip();
+  return;
+}
+
+if (code === 'KeyK') {
+  e.preventDefault();
+  musicPlayer.togglePause();
+  return;
+}
+
+if (code === 'KeyO') {
+  e.preventDefault();
+  musicPlayer.reopen();
+  return;
+}
+
+if (code === 'KeyM') {
+  e.preventDefault();
+
+  const muted = !audio.muted;
+
+  audio.setMuted(muted);
+  musicPlayer.setMuted(muted);
+
+  hud.muted = muted;
+
+  if (hud._els?.btnMute) {
+    hud._els.btnMute.textContent = muted ? '[M] Muted' : '[M] Mute';
+    hud._els.btnMute.classList.toggle('active', muted);
+  }
+
+  return;
+}
+
+if (inMainMenu || isPaused) return;
 
     if (code === 'Space') {
       e.preventDefault();
