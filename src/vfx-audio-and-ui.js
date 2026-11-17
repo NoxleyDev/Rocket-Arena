@@ -3904,13 +3904,17 @@ export class HUDController {
           </div>
 
           <div class="rl-start-controls-bar">
-            <span><kbd class="rl-keycap">W A S D</kbd>Drive &amp; Air Pitch/Roll</span>
-            <span><kbd class="rl-keycap">SPACE</kbd>Jump / Double-Jump Flip</span>
-            <span><kbd class="rl-keycap">F / CLICK</kbd>Rocket Boost</span>
-            <span><kbd class="rl-keycap">SHIFT</kbd>Powerslide Drift</span>
-            <span><kbd class="rl-keycap">C</kbd>Ball-Cam</span>
-            <span><kbd class="rl-keycap">ESC / P</kbd>Pause Menu</span>
-          </div>
+  <span><kbd class="rl-keycap">W A S D</kbd>Drive</span>
+  <span><kbd class="rl-keycap">I / L</kbd>Air Pitch</span>
+  <span><kbd class="rl-keycap">Q / E</kbd>Air Roll</span>
+  <span><kbd class="rl-keycap">SPACE</kbd>Jump / Double-Jump</span>
+  <span><kbd class="rl-keycap">F / CLICK</kbd>Rocket Boost</span>
+  <span><kbd class="rl-keycap">SHIFT</kbd>Powerslide Drift</span>
+  <span><kbd class="rl-keycap">C</kbd>Ball-Cam</span>
+  <span><kbd class="rl-keycap">ESC / P</kbd>Pause Menu</span>
+  <span><kbd class="rl-keycap">N / K</kbd>Skip / Pause Music</span>
+  <span><kbd class="rl-keycap">O / M</kbd>Show Player / Mute</span>
+</div>
         </div>
       </section>
 
