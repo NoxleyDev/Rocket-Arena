@@ -9,16 +9,16 @@ const DEFAULT_MUSIC_TRACKS = [
     id: 'midnight-dream',
     title: 'Midnight Dream',
     artist: 'Saavane',
-    src: 'music/Midnight Dream (Saavane).wav',
-    artwork: 'music/Saavane-Midnight Dream-Icon.png',
+    src: './music/Midnight Dream (Saavane).wav',
+    artwork: './music/Saavane-Midnight Dream-Icon.png',
     licenseNote: 'Pixabay source reported by project owner; edited file, verify applicable terms before redistribution.'
   },
   {
     id: 'driftway',
     title: 'Driftway',
     artist: '-Xaf-',
-    src: 'music/driftway.mp3',
-    artwork: 'music/driftway-icon.png',
+    src: './music/driftway.mp3',
+    artwork: './music/driftway-icon.png',
     licenseNote: 'Creative Commons Attribution (CC BY); retain appropriate attribution and source details.'
   }
 ];
