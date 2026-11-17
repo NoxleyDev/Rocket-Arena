@@ -322,19 +322,6 @@ export function evalArenaSDF(x, y, z) {
 
     return { dist: minDist, nx, ny, nz, surfaceType: 'goal_box' };
   }
-    if (dSide < minDist) {
-      minDist = dSide;
-      nx = -sx;
-      ny = 0.0;
-      nz = 0.0;
-    }
-    if (dBack < minDist) {
-      minDist = dBack;
-      nx = 0.0;
-      ny = 0.0;
-      nz = -sz;
-    }
-
     if (frameHit && frameHit.dist < minDist) {
       return frameHit;
     }
