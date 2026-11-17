@@ -686,17 +686,16 @@ computeReplayCamPose(carState, ballState, dt = 1 / 60) {
       this.currentRoll = 0;
     } else {
       if (activeMode === 'menu') {
-        desiredPose = this.computeMenuCamPose(safeDt);
-        desiredFov = 58.0;
-     } else if (activeMode === 'replay') {
+  desiredPose = this.computeMenuCamPose(safeDt);
+  desiredFov = 58.0;
+} else if (activeMode === 'replay') {
   desiredPose = this.computeReplayCamPose(car, ball, safeDt);
   desiredFov = desiredPose.fov || 58.0;
+} else if (activeMode === 'car') {
+  desiredPose = this.computeCarCamPose(car, safeDt);
+} else {
+  desiredPose = this.computeBallCamPose(car, ball, safeDt);
 }
-      } else if (activeMode === 'car') {
-        desiredPose = this.computeCarCamPose(car, safeDt);
-      } else {
-        desiredPose = this.computeBallCamPose(car, ball, safeDt);
-      }
 
       // Dynamic FOV (63 deg at rest -> 78 deg at Supersonic >= 42 m/s)
       const cVel = extractVelocity(car);
