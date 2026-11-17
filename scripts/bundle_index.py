@@ -70,11 +70,12 @@ const { MusicPlayer } = window.RLModules.Music;
 
 def build_bundle() -> str:
     modules = [
-        ("Module 1: Arena & Environment", "arena-and-environment.js", False),
-        ("Module 2: Vehicles & Geodesic Ball", "vehicles-and-ball.js", False),
-        ("Module 3: 6-DOF Physics, SDF & 4-Phase Kinematics", "physics-and-kinematics.js", False),
-        ("Module 4: Camera Director, VFX, Web Audio, Replay & HUD", "vfx-audio-and-ui.js", False),
-        ("Module 5: Master Orchestrator", "main.js", True),
+    ("Module 1: Arena & Environment", "arena-and-environment.js", False),
+    ("Module 2: Vehicles & Geodesic Ball", "vehicles-and-ball.js", False),
+    ("Module 3: 6-DOF Physics, SDF & 4-Phase Kinematics", "physics-and-kinematics.js", False),
+    ("Module 4: Camera Director, VFX, Web Audio, Replay & HUD", "vfx-audio-and-ui.js", False),
+    ("Module 5: Background Music Player", "music-player.js", False),
+    ("Module 6: Master Orchestrator", "main.js", True),
     ]
 
     parts = [
