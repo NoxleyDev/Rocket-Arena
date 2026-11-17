@@ -685,7 +685,7 @@ if (inMainMenu || isPaused) return;
     const left = touchInput.left || keysDown.has('KeyA') || keysDown.has('a') || keysDown.has('ArrowLeft');
     const right = touchInput.right || keysDown.has('KeyD') || keysDown.has('d') || keysDown.has('ArrowRight');
     const pitchDown = keysDown.has('KeyI') || keysDown.has('i');
-    const pitchUp = keysDown.has('KeyK') || keysDown.has('k');
+    const pitchUp = keysDown.has('KeyL') || keysDown.has('l');
     const rollLeft = keysDown.has('KeyQ') || keysDown.has('q');
     const rollRight = keysDown.has('KeyE') || keysDown.has('e');
     const keyboardHandbrake = touchInput.handbrake || keysDown.has('ShiftLeft') || keysDown.has('ShiftRight') || keysDown.has('shift');
