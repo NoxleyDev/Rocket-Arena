@@ -230,7 +230,9 @@ let matchStatsByCarId = Object.create(null);
       }
 
       case 'GOAL_SCORED': {
-        const team = evt.scoringTeam || 'blue';
+  recordMatchStat(evt.scorerCarId, 'goals');
+
+  const team = evt.scoringTeam || 'blue';
         const speedKph = evt.shotSpeedKph || 115;
         const scorerCar = physics.cars.find((c) => c.id === evt.scorerCarId);
         const scorerName = scorerCar ? scorerCar.name : (team === 'blue' ? 'OCTANE-01' : 'OCTANE-02');
