@@ -1036,9 +1036,9 @@ if (inMainMenu || isPaused) return;
         });
         hud.update(window.__SIM_STATE__, window.__MOTION_TELEMETRY__);
       } else if (isPaused) {
-        syncGlobalState();
-        hud.update(window.__SIM_STATE__, window.__MOTION_TELEMETRY__);
-      } else {
+  syncGlobalState();
+  hud.update(window.__SIM_STATE__, window.__MOTION_TELEMETRY__);
+} else {
         applyHardwareInputsToPlayer();
 
         const hitStopScale = cameraDirector.stepHitStop(safeDt);
