@@ -247,12 +247,30 @@ let matchStatsByCarId = Object.create(null);
         break;
       }
 
-      case 'AWARD': {
-        if (evt.type !== 'GOAL' && evt.label) {
-          hud.showMedal(evt.label);
-        }
-        break;
-      }
+      case 'SHOT ON GOAL': {
+  recordMatchStat(evt.carId, 'shotsOnGoal');
+
+  if (evt.label) {
+    hud.showMedal(evt.label);
+  }
+  break;
+}
+
+case 'EPIC SAVE': {
+  recordMatchStat(evt.carId, 'saves');
+
+  if (evt.label) {
+    hud.showMedal(evt.label);
+  }
+  break;
+}
+
+case 'AWARD': {
+  if (evt.type !== 'GOAL' && evt.label) {
+    hud.showMedal(evt.label);
+  }
+  break;
+}
 
       case 'COUNTDOWN_TICK': {
         hud.showCountdown(String(evt.count));
