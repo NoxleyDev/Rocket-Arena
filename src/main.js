@@ -219,7 +219,11 @@ let matchStatsByCarId = Object.create(null);
       }
 
       case 'DEMOLITION': {
-        vfx.spawnDemolition(evt.position, evt.victimTeam || 'orange');
+  if (evt.attackerId) {
+    recordMatchStat(evt.attackerId, 'demolitions');
+  }
+
+  vfx.spawnDemolition(evt.position, evt.victimTeam || 'orange');
         cameraDirector.triggerShake(1.15, 0.45);
         audio.playDemolition();
         break;
