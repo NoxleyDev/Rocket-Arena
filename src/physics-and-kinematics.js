@@ -1359,7 +1359,12 @@ export class PhysicsWorld {
     }
 
     // Handle Match State Machine transitions
-    this._updateMatchStateMachine(dt);
+this._updateMatchStateMachine(dt);
+
+// Stop immediately if the match has just finished.
+if (this.matchState === MATCH_STATES.MATCH_OVER) {
+  return;
+}
 
     // If in MAIN_MENU, keep scene gently idling without advancing match timers
     if (this.matchState === MATCH_STATES.MAIN_MENU && !this.activeChoreography) {
