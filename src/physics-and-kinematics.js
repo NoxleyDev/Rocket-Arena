@@ -1529,11 +1529,9 @@ this.emitEvent('REPLAY_START', {
 });
       }
     } else if (this.matchState === MATCH_STATES.MATCH_OVER) {
-      this.stateTimer -= dt;
-      if (this.stateTimer <= 0) {
-        this.resetMatch(this.mode);
-      }
-    }
+  // Stay in the final state until the player chooses an action.
+  return;
+}
   }
 
   _recordReplaySnapshot() {
