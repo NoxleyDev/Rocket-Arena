@@ -255,17 +255,40 @@ function canRegisterAchievement(evt) {
         break;
       }
 
-      case 'DEMOLITION': {
-  if (evt.attackerId) {
-    recordMatchStat(evt.attackerId, 'demolitions');
-  }
+            case 'DEMOLITION': {
 
-  vfx.spawnDemolition(evt.position, evt.victimTeam || 'orange');
-        cameraDirector.triggerShake(1.15, 0.45);
-        audio.playDemolition();
+        // Physical demolition event.
+        if (evt.attackerId) {
+
+          recordMatchStat(
+            evt.attackerId,
+            'demolitions'
+          );
+
+          vfx.spawnDemolition(
+            evt.position,
+            evt.victimTeam || 'orange'
+          );
+
+          cameraDirector.triggerShake(1.15, 0.45);
+          audio.playDemolition();
+
+        }
+
+        // Demolition achievement event.
+        else if (evt.carId && evt.label) {
+
+          if (
+            canRegisterAchievement(evt) &&
+            evt.team === (physics.playerCar?.team || 'blue')
+          ) {
+            hud.showMedal(evt.label);
+          }
+
+        }
+
         break;
       }
-
       case 'GOAL_SCORED': {
   recordMatchStat(evt.scorerCarId, 'goals');
 
