@@ -843,7 +843,12 @@ if (inMainMenu || isPaused) return;
   renderer.domElement.addEventListener('contextmenu', (e) => e.preventDefault());
 
   function applyHardwareInputsToPlayer() {
-    if (physics.activeChoreography || inMainMenu || isPaused) return;
+    if (
+  physics.activeChoreography ||
+  inMainMenu ||
+  isPaused ||
+  matchResultsVisible
+) return;
 
     const forward = touchInput.forward || keysDown.has('KeyW') || keysDown.has('w') || keysDown.has('ArrowUp');
     const backward = touchInput.backward || keysDown.has('KeyS') || keysDown.has('s') || keysDown.has('ArrowDown');
