@@ -138,6 +138,43 @@ export function initRocketLeagueApp() {
 let matchResultsVisible = false;
 let finalMatchResult = null;
 let matchStatsByCarId = Object.create(null);
+  
+// --------------------------------------------------------------------------
+// ACHIEVEMENT COOLDOWN
+// --------------------------------------------------------------------------
+
+const ACHIEVEMENT_COOLDOWN_SECONDS = 0.2;
+const achievementCooldowns = new Map();
+
+function canRegisterAchievement(evt) {
+  const type = String(evt?.type || '').toUpperCase();
+  const carId = evt?.carId || 'unknown';
+
+  // Use simulation time for consistent cooldowns.
+  const now = Number.isFinite(evt?.timestamp)
+    ? evt.timestamp
+    : performance.now() / 1000;
+
+  const key = `${carId}:${type}`;
+  const previousTime = achievementCooldowns.get(key);
+
+  if (previousTime !== undefined) {
+
+    // Clear old timestamps if a new match resets simulation time.
+    if (now < previousTime) {
+      achievementCooldowns.clear();
+    }
+
+    // Ignore repeated achievements within 200 milliseconds.
+    else if (now - previousTime < ACHIEVEMENT_COOLDOWN_SECONDS) {
+      return false;
+    }
+  }
+
+  achievementCooldowns.set(key, now);
+
+  return true;
+}
 
   // --------------------------------------------------------------------------
   // 4. PHYSICS WORLD & EVENT ROUTING
