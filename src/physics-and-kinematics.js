@@ -1312,6 +1312,7 @@ export class PhysicsWorld {
         if (
   this.matchState !== MATCH_STATES.INSTANT_REPLAY &&
   this.matchState !== MATCH_STATES.MAIN_MENU &&
+  this.matchState !== MATCH_STATES.MATCH_OVER &&
   !this.goalScoredThisRally
 ) {
   this._recordReplaySnapshot();
@@ -1333,6 +1334,7 @@ export class PhysicsWorld {
         if (
   this.matchState !== MATCH_STATES.INSTANT_REPLAY &&
   this.matchState !== MATCH_STATES.MAIN_MENU &&
+  this.matchState !== MATCH_STATES.MATCH_OVER &&
   !this.goalScoredThisRally
 ) {
   this._recordReplaySnapshot();
