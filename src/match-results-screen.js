@@ -15,7 +15,7 @@ const escapeHtml = (value) => {
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[char]);
+  }[char]));
 };
 
 const numberOrZero = (value) => {
