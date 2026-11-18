@@ -264,9 +264,14 @@ let matchStatsByCarId = Object.create(null);
 case 'EPIC SAVE': {
   recordMatchStat(evt.carId, 'saves');
 
-  if (evt.label) {
+  // Only display awards earned by the player's team.
+  if (
+    evt.team === (physics.playerCar?.team || 'blue') &&
+    evt.label
+  ) {
     hud.showMedal(evt.label);
   }
+
   break;
 }
 
