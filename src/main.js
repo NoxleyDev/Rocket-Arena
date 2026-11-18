@@ -134,6 +134,10 @@ export function initRocketLeagueApp() {
   let isPaused = false;
   let goBannerClearTimer = null;
   let currentBannerText = '';
+  // Match results state and per-player statistics.
+let matchResultsVisible = false;
+let finalMatchResult = null;
+let matchStatsByCarId = Object.create(null);
 
   // --------------------------------------------------------------------------
   // 4. PHYSICS WORLD & EVENT ROUTING
