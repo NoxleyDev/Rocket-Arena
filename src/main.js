@@ -1046,7 +1046,15 @@ if (inMainMenu || isPaused) return;
 
         physics.step(effectiveDt, explicitSubSteps);
 
-        syncCarMeshes(safeDt);
+// Detect the final match state, including overtime victories.
+if (
+  physics.matchState === MATCH_STATES.MATCH_OVER &&
+  !matchResultsVisible
+) {
+  showMatchResults();
+}
+
+syncCarMeshes(safeDt);
         updateSoccerBallVisuals(ballMesh, physics.ball, safeDt);
 
         syncGlobalState();
