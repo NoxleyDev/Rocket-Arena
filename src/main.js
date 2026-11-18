@@ -443,6 +443,98 @@ resetMatchStats();
     }
   });
 
+  // --------------------------------------------------------------------------
+// MATCH RESULTS SCREEN
+// --------------------------------------------------------------------------
+
+const matchResultsScreen = new MatchResultsScreen(document.body);
+
+function showMatchResults() {
+  if (matchResultsVisible) return;
+
+  const score = { ...physics.score };
+
+  const winner =
+    score.blue > score.orange ? 'blue' :
+    score.orange > score.blue ? 'orange' :
+    'draw';
+
+  const players = physics.cars.map((car) => {
+    const stats = matchStatsByCarId[car.id] || {};
+
+    return {
+      id: car.id,
+      name: car.name,
+      team: car.team,
+      isPlayer: car.isPlayer,
+
+      goals: stats.goals || 0,
+      shotsOnGoal: stats.shotsOnGoal || 0,
+      saves: stats.saves || 0,
+      demolitions: stats.demolitions || 0,
+      touches: stats.touches || 0
+    };
+  });
+
+  // Preserve a final snapshot before displaying the screen.
+  finalMatchResult = {
+    winner,
+    score,
+    mode: physics.mode,
+    overtime: physics.isOvertime,
+    players
+  };
+
+  matchResultsVisible = true;
+  isPaused = false;
+
+  keysDown.clear();
+  mouseBoostDown = false;
+  mouseJumpDown = false;
+  jumpEdgePending = false;
+
+  Object.keys(touchInput).forEach((key) => {
+    touchInput[key] = false;
+  });
+
+  audio.setPaused(true);
+
+  hud.showPauseModal(false);
+  syncGlobalState();
+
+  matchResultsScreen.show(finalMatchResult, {
+
+    playAgain: () => {
+      matchResultsScreen.hide();
+      matchResultsVisible = false;
+
+      startGame(physics.mode, hud.activeDifficulty);
+    },
+
+    mainMenu: () => {
+      matchResultsScreen.hide();
+      matchResultsVisible = false;
+
+      showMainMenu();
+    },
+
+    changeMode: () => {
+      matchResultsScreen.hide();
+      matchResultsVisible = false;
+
+      showMainMenu();
+
+      const modeButtons = hud.container?.querySelector('#rl-mode-buttons');
+
+      modeButtons?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+
+  });
+}
+
   function dismissMainMenuForProgrammaticCall() {
     if (!inMainMenu) return;
     inMainMenu = false;
