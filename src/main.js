@@ -596,6 +596,8 @@ function showMatchResults() {
   }
 
   function showMainMenu() {
+      matchResultsVisible = false;
+  matchResultsScreen.hide();
     if (studioMode) setStudioMode(false);
     isPaused = false;
     inMainMenu = true;
