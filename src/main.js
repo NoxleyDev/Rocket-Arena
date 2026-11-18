@@ -1139,13 +1139,22 @@ audio.update(safeDt, physics.playerCar || physics.cars[0]);
   }
 
   function resetMatch(mode = '1v1') {
-    dismissMainMenuForProgrammaticCall();
-    if (isPaused) togglePause(false);
-    if (studioMode) setStudioMode(false);
-    currentBannerText = '';
-    hud.hideGoalBanner();
-    hud.setMatchMode(mode);
-    physics.setMatchMode(mode);
+  dismissMainMenuForProgrammaticCall();
+
+  matchResultsVisible = false;
+  matchResultsScreen.hide();
+  finalMatchResult = null;
+
+  if (isPaused) togglePause(false);
+  if (studioMode) setStudioMode(false);
+
+  currentBannerText = '';
+  hud.hideGoalBanner();
+  hud.setMatchMode(mode);
+
+  // Clear statistics only when a new match is actually initialized.
+  physics.setMatchMode(mode);
+  resetMatchStats();
     syncCarMeshes();
     updateSoccerBallVisuals(ballMesh, physics.ball, 1 / 60);
     cameraDirector.reset(physics.playerCar || physics.cars[0], physics.ball);
