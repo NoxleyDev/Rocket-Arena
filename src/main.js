@@ -157,7 +157,9 @@ let matchStatsByCarId = Object.create(null);
 
     switch (evt.type) {
       case 'CAR_BALL_HIT': {
-        vfx.spawnBallHit(
+  recordMatchStat(evt.carId, 'touches');
+
+  vfx.spawnBallHit(
           evt.contactPoint || physics.ball.position,
           { x: 0, y: 1, z: 0 },
           (evt.ballSpeedKph || 80) / 3.6,
