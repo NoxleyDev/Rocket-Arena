@@ -672,6 +672,15 @@ function showMatchResults() {
     const code = e.code;
     const key = e.key.toLowerCase();
 
+    // Disable match controls while the results screen is visible.
+// Music controls remain available.
+if (
+  matchResultsVisible &&
+  !['KeyN', 'KeyK', 'KeyO', 'KeyM'].includes(code)
+) {
+  return;
+}
+
     if (code === 'Escape') {
       e.preventDefault();
       if (!inMainMenu) {
