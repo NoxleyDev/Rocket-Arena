@@ -2880,11 +2880,23 @@ export class HUDController {
         }
 
         .rl-medal-stack {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 6px;
-        }
+  position: absolute;
+  top: clamp(82px, 11vh, 112px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  z-index: 45;
+
+  width: max-content;
+  max-width: calc(100vw - 24px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  pointer-events: none;
+}
 
         .rl-medal-pill {
           padding: 5px 16px;
