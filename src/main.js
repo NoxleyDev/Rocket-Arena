@@ -284,52 +284,58 @@ function canRegisterAchievement(evt) {
         break;
       }
       case 'FIRST TOUCH':
-case 'AERIAL HIT': {
+      // ----------------------------------------------------------------------
+      // MATCH ACHIEVEMENTS
+      // ----------------------------------------------------------------------
 
-  if (
-    evt.team === (physics.playerCar?.team || 'blue') &&
-    evt.label
-  ) {
-    hud.showMedal(evt.label);
-  }
+      case 'FIRST TOUCH':
+      case 'AERIAL HIT':
+      case 'SHOT ON GOAL':
+      case 'EPIC SAVE': {
 
-  break;
-}
-      case 'SHOT ON GOAL': {
-  recordMatchStat(evt.carId, 'shotsOnGoal');
+        // Apply a 200ms cooldown per player and achievement type.
+        if (!canRegisterAchievement(evt)) {
+          break;
+        }
 
-  // Only display awards earned by the player's team.
-  if (
-    evt.team === (physics.playerCar?.team || 'blue') &&
-    evt.label
-  ) {
-    hud.showMedal(evt.label);
-  }
+        // Update statistics only after the cooldown check.
+        if (evt.type === 'SHOT ON GOAL') {
+          recordMatchStat(evt.carId, 'shotsOnGoal');
+        }
 
-  break;
-}
+        if (evt.type === 'EPIC SAVE') {
+          recordMatchStat(evt.carId, 'saves');
+        }
 
-case 'EPIC SAVE': {
-  recordMatchStat(evt.carId, 'saves');
+        // Only display achievements earned by the player's team.
+        const playerTeam = physics.playerCar?.team || 'blue';
 
-  // Only display awards earned by the player's team.
-  if (
-    evt.team === (physics.playerCar?.team || 'blue') &&
-    evt.label
-  ) {
-    hud.showMedal(evt.label);
-  }
+        if (
+          evt.team === playerTeam &&
+          evt.label
+        ) {
+          hud.showMedal(evt.label);
+        }
 
-  break;
-}
+        break;
+      }
 
-case 'AWARD': {
-  if (evt.type !== 'GOAL' && evt.label) {
-    hud.showMedal(evt.label);
-  }
-  break;
-}
+      case 'AWARD': {
 
+        // Fallback for generic awards.
+        const playerTeam = physics.playerCar?.team || 'blue';
+
+        if (
+          evt.type !== 'GOAL' &&
+          evt.team === playerTeam &&
+          evt.label &&
+          canRegisterAchievement(evt)
+        ) {
+          hud.showMedal(evt.label);
+        }
+
+        break;
+      }
       case 'COUNTDOWN_TICK': {
         hud.showCountdown(String(evt.count));
         audio.playCountdownBeep(evt.count);
