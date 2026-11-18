@@ -284,6 +284,39 @@ let matchStatsByCarId = Object.create(null);
     onEvent: handlePhysicsEvent
   });
 
+  // --------------------------------------------------------------------------
+// MATCH STATISTICS
+// --------------------------------------------------------------------------
+
+function resetMatchStats() {
+  matchStatsByCarId = Object.create(null);
+
+  for (const car of physics.cars) {
+    matchStatsByCarId[car.id] = {
+      goals: 0,
+      shotsOnGoal: 0,
+      saves: 0,
+      demolitions: 0,
+      touches: 0
+    };
+  }
+}
+
+function recordMatchStat(carId, statName) {
+  if (!carId) return;
+
+  const stats = matchStatsByCarId[carId];
+
+  if (!stats || !Object.prototype.hasOwnProperty.call(stats, statName)) {
+    return;
+  }
+
+  stats[statName]++;
+}
+
+// Initialize statistics for the initial team setup.
+resetMatchStats();
+
   // PhysicsWorld is the single source of truth for replay capture/playback.
   // Keep a small compatibility facade for integrations that inspect __RL_GAME__.replay,
   // without creating a second replay timeline or maintaining duplicated state.
