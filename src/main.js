@@ -578,6 +578,10 @@ function showMatchResults() {
   }
 
   function togglePause(forceState = null) {
+    
+    // Prevent pausing while match results are displayed.
+    if (matchResultsVisible) return false;
+    
     if (inMainMenu && forceState === true) {
       dismissMainMenuForProgrammaticCall();
     } else if (inMainMenu && forceState === null) {
