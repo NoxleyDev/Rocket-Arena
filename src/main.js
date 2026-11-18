@@ -250,9 +250,14 @@ let matchStatsByCarId = Object.create(null);
       case 'SHOT ON GOAL': {
   recordMatchStat(evt.carId, 'shotsOnGoal');
 
-  if (evt.label) {
+  // Only display awards earned by the player's team.
+  if (
+    evt.team === (physics.playerCar?.team || 'blue') &&
+    evt.label
+  ) {
     hud.showMedal(evt.label);
   }
+
   break;
 }
 
