@@ -1346,7 +1346,11 @@ export class PhysicsWorld {
   }
 
   _stepSingleSubStep(dt) {
-    this.simulationTime += dt;
+  if (this.matchState === MATCH_STATES.MATCH_OVER) {
+    return;
+  }
+
+  this.simulationTime += dt;
     this.stepCount++;
 
     // Handle active 4-phase choreography if running
