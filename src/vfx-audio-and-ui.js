@@ -3726,13 +3726,14 @@ export class HUDController {
       </div>
 
       <div class="rl-center-stage">
-        <div class="rl-countdown-text" id="rl-countdown-banner"></div>
-        <div class="rl-goal-banner" id="rl-goal-banner">
-          <div class="rl-goal-title" id="rl-goal-title">GOAL!</div>
-          <div class="rl-goal-sub rl-mono" id="rl-goal-sub">BLUE SCORES • 118 KPH</div>
-        </div>
-        <div class="rl-medal-stack" id="rl-medal-stack"></div>
-      </div>
+  <div class="rl-countdown-text" id="rl-countdown-banner"></div>
+  <div class="rl-goal-banner" id="rl-goal-banner">
+    <div class="rl-goal-title" id="rl-goal-title">GOAL!</div>
+    <div class="rl-goal-sub rl-mono" id="rl-goal-sub">BLUE SCORES • 118 KPH</div>
+  </div>
+</div>
+
+<div class="rl-medal-stack" id="rl-medal-stack"></div>
 
       <div class="rl-replay-overlay" id="rl-replay-overlay">
         <div class="rl-replay-dot"></div>
