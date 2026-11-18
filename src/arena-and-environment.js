@@ -267,10 +267,10 @@ export function evalArenaSDF(x, y, z) {
   const nearGoalPlane = az > 88.0 && ax < gw + 6.0 && y < gh + 6.0;
   const frameHit = nearGoalPlane ? evalGoalFrameCapsule(x, y, z, zGoal, rPost) : null;
 
-  // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
   // REGION 1: Inside or penetrating the Recessed Goal Chamber (|z| > 100.0)
   // -------------------------------------------------------------------------
-    if (az > L && ax < gw + 4.0 && y < gh + 3.5) {
+  if (az > L && ax < gw + 4.0 && y < gh + 3.5) {
     const dFloor = y;
     const dCeil = gh - y;
 
@@ -316,12 +316,6 @@ export function evalArenaSDF(x, y, z) {
       nz = horizontalNZ;
     }
 
-    if (frameHit && frameHit.dist < minDist) {
-      return frameHit;
-    }
-
-    return { dist: minDist, nx, ny, nz, surfaceType: 'goal_box' };
-  }
     if (frameHit && frameHit.dist < minDist) {
       return frameHit;
     }
