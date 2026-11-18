@@ -246,7 +246,18 @@ let matchStatsByCarId = Object.create(null);
         audio.playGoalHornAndCrowd();
         break;
       }
+      case 'FIRST TOUCH':
+case 'AERIAL HIT': {
 
+  if (
+    evt.team === (physics.playerCar?.team || 'blue') &&
+    evt.label
+  ) {
+    hud.showMedal(evt.label);
+  }
+
+  break;
+}
       case 'SHOT ON GOAL': {
   recordMatchStat(evt.carId, 'shotsOnGoal');
 
