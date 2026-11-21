@@ -49,13 +49,23 @@ visuales, audio procedural y diferentes modos de juego.
 
 ## Cómo ejecutar el juego
 
-### Opción 1: abrir el archivo
+### Ejecutar en local (recomendado)
 
-Abre `index.html` directamente con un navegador moderno. Si el navegador
-o la configuración local impiden cargar algún recurso, utiliza un
-servidor HTTP local.
+Los módulos JavaScript del proyecto se cargan como módulos ES. Para evitar
+restricciones del navegador al abrir archivos `file://`, sirve la carpeta
+por HTTP. Con Python instalado, ejecuta desde la raíz:
 
-### Opción 2: servidor local
+```bash
+python3 -m http.server 8000
+```
+
+Después visita `http://localhost:8000`.
+
+También puedes usar cualquier servidor estático local. No se necesita un
+backend del juego, pero sí conexión a Internet para descargar Three.js desde
+jsDelivr y las fuentes externas.
+
+### Compilar la versión independiente
 
 Con Python instalado, abre una terminal en la carpeta del proyecto y
 ejecuta:
@@ -97,7 +107,6 @@ dispositivos táctiles compatibles se muestran controles en pantalla.
 Rocket-Arena/
 ├── index.html
 ├── README.md
-├── CHANGELOG.md
 ├── dist/
 │   └── app-bundle.js
 ├── docs/
@@ -106,9 +115,12 @@ Rocket-Arena/
 │   └── action_m1.png
 ├── scripts/
 │   └── bundle_index.py
+├── music/
 └── src/
     ├── arena-and-environment.js
     ├── main.js
+    ├── match-results-screen.js
+    ├── music-player.js
     ├── physics-and-kinematics.js
     ├── vehicles-and-ball.js
     └── vfx-audio-and-ui.js
@@ -125,9 +137,11 @@ Rocket-Arena/
     suspensión, movimiento, pelota, bots y sistema de repeticiones.
 -   **`src/vfx-audio-and-ui.js`**: cámaras, HUD, menús, partículas,
     efectos visuales y audio procedural.
+-   **`src/music-player.js`** y **`src/match-results-screen.js`**: música y
+    pantalla de resultados, respectivamente.
 -   **`src/main.js`**: inicialización del juego, renderizado, bucle
     principal, controles y conexión entre los sistemas.
--   **`scripts/bundle_index.py`**: genera el paquete JavaScript y
+-   **`scripts/bundle_index.py`**: genera la versión independiente y
     actualiza el HTML independiente.
 
 ## Compilar después de modificar el código
@@ -139,8 +153,10 @@ HTML ejecutando desde la carpeta raíz:
 python3 scripts/bundle_index.py
 ```
 
-El script actualiza `dist/app-bundle.js` e integra el código en
-`index.html`.
+El script genera `dist/app-bundle.js` y una versión independiente en
+`index.html`. La página del repositorio ejecuta los módulos de `src/`
+directamente; para publicar un build independiente, ejecuta el script y
+revisa ambos archivos generados.
 
 ## Estado y limitaciones conocidas
 

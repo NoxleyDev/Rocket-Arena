@@ -714,3 +714,9 @@ export class MatchResultsScreen {
   }
 
 }
+
+
+if (typeof window !== 'undefined') {
+  window.RLModules = window.RLModules || {};
+  window.RLModules.Results = { MatchResultsScreen };
+}
