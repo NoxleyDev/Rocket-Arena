@@ -4306,7 +4306,7 @@ export class HUDController {
     if (!this._els?.medalStack || typeof document === 'undefined') return;
     const pill = document.createElement('div');
     pill.className = 'rl-medal-pill';
-    pill.textContent = label;
+    pill.textContent = String(label).replace(/\s*\+\s*\d+\s*$/, '');
     this._els.medalStack.appendChild(pill);
     setTimeout(() => {
       if (pill.parentNode) pill.parentNode.removeChild(pill);
