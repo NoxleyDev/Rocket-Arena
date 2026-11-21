@@ -1314,6 +1314,8 @@ function buildGoalChambers(THREE, rootGroup) {
     });
     laserCurtainMaterials.push(netMat);
 
+    const cornerRadius = ARENA_CONSTANTS.goalCornerRadius;
+    const straightDepth = gd - cornerRadius;
     // Build all rounded goal enclosure surfaces from the same animated net
     // material so there are no dark patches at the floor, side, or roof joins.
     const addCurvedPatch = (pointAt, segments = 24) => {
@@ -1360,8 +1362,6 @@ function buildGoalChambers(THREE, rootGroup) {
     }
 
     // Ceiling net ends at the tangent points of the rounded rear corners.
-    const cornerRadius = ARENA_CONSTANTS.goalCornerRadius;
-    const straightDepth = gd - cornerRadius;
     const ceilNetGeo = new THREE.PlaneGeometry((gw - cornerRadius) * 2, straightDepth);
     ceilNetGeo.rotateX(Math.PI * 0.5);
     const ceilNet = new THREE.Mesh(ceilNetGeo, netMat);
