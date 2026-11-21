@@ -63,6 +63,7 @@ const {
 } = window.RLModules.Presentation;
 
 const { MusicPlayer } = window.RLModules.Music;
+const { MatchResultsScreen } = window.RLModules.Results;
 """
         code = preamble + "\n" + code
     return code
@@ -75,7 +76,8 @@ def build_bundle() -> str:
     ("Module 3: 6-DOF Physics, SDF & 4-Phase Kinematics", "physics-and-kinematics.js", False),
     ("Module 4: Camera Director, VFX, Web Audio, Replay & HUD", "vfx-audio-and-ui.js", False),
     ("Module 5: Background Music Player", "music-player.js", False),
-    ("Module 6: Master Orchestrator", "main.js", True),
+    ("Module 6: Match Results Screen", "match-results-screen.js", False),
+    ("Module 7: Master Orchestrator", "main.js", True),
     ]
 
     parts = [
