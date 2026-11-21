@@ -170,13 +170,10 @@ revisa ambos archivos generados.
   [Newgrounds](https://www.newgrounds.com/audio/listen/1636539)). La ficha
   ofrece la obra bajo [Creative Commons Attribution 3.0 (CC BY 3.0)](https://creativecommons.org/licenses/by/3.0/).
   Se debe conservar este crédito y la licencia al redistribuir la pista.
-- **Midnight Dream** — música de **Saavane**, con procedencia reportada desde
-  [Pixabay](https://pixabay.com/users/saavane-32312792/). Pixabay permite
-  usar sus contenidos sujetos a su [Content License](https://pixabay.com/service/license-summary/)
-  y recomienda aunque no exige atribución. No he podido localizar la ficha
-  específica de esta pista; conserva la URL o comprobante de descarga original
-  para acreditar que este archivo concreto procede de Pixabay y se descargó
-  bajo esa licencia. No distribuyas el archivo de audio por separado.
+- **Midnight Dream** — música de **Saavane**, [ficha de Pixabay](https://pixabay.com/music/upbeat-free-video-game-edit-music-390818/).
+- **Neon Overdrive** — música de **MrOneILoveALot**, [ficha de Pixabay](https://pixabay.com/music/synthwave-neon-overdrive-cyberpunk-gaming-edm-415723/).
+- **Midnight Rush** — música de **FASSounds**. La procedencia Pixabay la ha indicado el propietario del proyecto, pero no se ha podido verificar una ficha pública exacta; conserva la URL y el comprobante de descarga originales.
+- **Race Cars** — música de **FASSounds**, [ficha de Pixabay](https://pixabay.com/music/upbeat-race-cars-phonk-gaming-music-196477/). La ficha indica que está registrada en Content ID; conserva el comprobante de descarga y responde a cualquier reclamación con esa documentación.
 
 La licencia MIT del repositorio cubre el código y la documentación del
 proyecto, no concede por sí misma derechos sobre estas pistas ni sobre otros
