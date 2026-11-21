@@ -347,7 +347,7 @@ export function evalArenaSDF(x, y, z) {
     // wall driving continuous at the four longitudinal edges of the chamber.
     const sideOffset = ax - (gw - cornerRadius);
     const sideCandidates = [];
-    if (y < cornerRadius) {
+    if (sideOffset > 0.0 && depth < gd - cornerRadius && y < cornerRadius) {
       const dy = y - cornerRadius;
       const distance = Math.hypot(sideOffset, dy);
       sideCandidates.push({
@@ -357,7 +357,7 @@ export function evalArenaSDF(x, y, z) {
         nz: 0.0
       });
     }
-    if (gh - y < cornerRadius) {
+    if (sideOffset > 0.0 && depth < gd - cornerRadius && gh - y < cornerRadius) {
       const dy = y - (gh - cornerRadius);
       const distance = Math.hypot(sideOffset, dy);
       sideCandidates.push({
