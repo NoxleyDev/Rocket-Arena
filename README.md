@@ -168,11 +168,11 @@ revisa ambos archivos generados.
 
 El reproductor incluye seis pistas de fondo. Los MP3 y las imágenes indicadas están en `music/`:
 
-- **Midnight Dream** — música de **Saavane**, [ficha de Pixabay](https://pixabay.com/music/upbeat-free-video-game-edit-music-390818/); imagen `Saavane-Midnight Dream-Icon.png`.
+- **Midnight Dream** — música de **Saavane**, [ficha de Pixabay](https://pixabay.com/music/upbeat-free-video-game-edit-music-390818/); imagen `Saavane-Midnight Dream-Icon.png`. La ficha indica registro en Content ID; guarda el comprobante de descarga.
 - **Neon Overdrive** — música de **MrOneILoveALot**, [ficha de Pixabay](https://pixabay.com/music/synthwave-neon-overdrive-cyberpunk-gaming-edm-415723/); imagen `Neon-Overdrive-Icon.png`.
 - **Midnight Rush** — música de **FASSounds**; imagen `FASSounds.jpg`. El propietario del proyecto indica que procede de Pixabay, pero no se ha podido verificar una ficha pública exacta. Conserva la URL original y el comprobante de descarga.
-- **Race Cars** — música de **FASSounds**, [ficha de Pixabay](https://pixabay.com/music/upbeat-race-cars-phonk-gaming-music-196477/); usa `FASSounds.jpg` como imagen. La ficha indica registro en Content ID, así que conserva el comprobante de descarga para responder a posibles reclamaciones automáticas.
-- **Candy** — música de **FASSounds**, [ficha de Pixabay](https://pixabay.com/music/dance-candy-vocal-gaming-pop-music-198506/); usa `FASSounds.jpg` como imagen.
+- **Race Cars** — música de **FASSounds**, [ficha de Pixabay](https://pixabay.com/music/upbeat-race-cars-phonk-gaming-music-196477/); usa `FASSounds.jpg` como imagen. La ficha indica registro en Content ID; conserva el comprobante de descarga para responder a posibles reclamaciones automáticas.
+- **Candy** — música de **FASSounds**, [ficha de Pixabay](https://pixabay.com/music/dance-candy-vocal-gaming-pop-music-198506/); usa `FASSounds.jpg` como imagen. La ficha también indica registro en Content ID; conserva el comprobante de descarga.
 - **Driftway** — música de **-Xaf-** (artista identificado como HappyXaf en [Newgrounds](https://www.newgrounds.com/audio/listen/1636539)), bajo [Creative Commons Attribution 3.0 (CC BY 3.0)](https://creativecommons.org/licenses/by/3.0/); imagen `driftway-icon.png`. Conserva el crédito, la licencia y el enlace a la obra al redistribuirla.
 
 Las pistas de Pixabay se usan bajo la [Licencia de contenido de Pixabay](https://pixabay.com/service/license-summary/). Pixabay permite su uso y adaptación sujeto a sus condiciones; no permite redistribuir el contenido como archivo independiente ni crear un producto cuyo valor principal sea ese contenido. La atribución no es obligatoria bajo esa licencia, pero se incluyen los créditos por claridad. Conserva las páginas de origen y los comprobantes de descarga. La licencia de una pista no debe asumirse automáticamente para una imagen si su procedencia es distinta.
