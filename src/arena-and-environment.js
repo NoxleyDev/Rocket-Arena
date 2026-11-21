@@ -23,6 +23,7 @@ export const ARENA_CONSTANTS = {
   goalHalfWidth: 14.0,  // X in [-14, +14] (28m goal width)
   goalHeight: 11.0,     // Y in [0, 11] (11m goal height)
   goalDepth: 12.0,      // |Z| in [100, 112] (12m recessed goal box)
+  goalCornerRadius: 2.0, // Rounded joins between the goal side walls and back wall
   goalPostRadius: 0.45, // R_post = 0.45m capsule posts & crossbar
   ballRadius: 3.20
 };
@@ -276,7 +277,7 @@ export function evalArenaSDF(x, y, z) {
 
     // Rounded inside corners between the goal side walls and back wall.
     const depth = az - L;
-    const cornerRadius = 2.0;
+    const cornerRadius = ARENA_CONSTANTS.goalCornerRadius;
     const cornerX = ax - (gw - cornerRadius);
     const cornerDepth = depth - (gd - cornerRadius);
 
@@ -1225,22 +1226,27 @@ function buildGoalChambers(THREE, rootGroup) {
       const ribMat = dOffset === 12.0 ? neonMat : darkFrameMat;
       const ribR = dOffset === 12.0 ? 0.32 : 0.26;
 
+      const topRibWidth = dOffset === gd
+        ? (gw - ARENA_CONSTANTS.goalCornerRadius) * 2.0
+        : gw * 2.0 + 0.6;
       const topRib = new THREE.Mesh(
-        new THREE.BoxGeometry(gw * 2.0 + 0.6, ribR * 2, ribR * 2),
+        new THREE.BoxGeometry(topRibWidth, ribR * 2, ribR * 2),
         ribMat
       );
       topRib.position.set(0, gh, zRib);
       topRib.renderOrder = 0;
       goalGroup.add(topRib);
 
-      for (const side of [-1, +1]) {
-        const sideRib = new THREE.Mesh(
-          new THREE.BoxGeometry(ribR * 2, gh, ribR * 2),
-          ribMat
-        );
-        sideRib.position.set(side * gw, gh * 0.5, zRib);
-        sideRib.renderOrder = 0;
-        goalGroup.add(sideRib);
+      if (dOffset < gd) {
+        for (const side of [-1, +1]) {
+          const sideRib = new THREE.Mesh(
+            new THREE.BoxGeometry(ribR * 2, gh, ribR * 2),
+            ribMat
+          );
+          sideRib.position.set(side * gw, gh * 0.5, zRib);
+          sideRib.renderOrder = 0;
+          goalGroup.add(sideRib);
+        }
       }
     }
 
@@ -1279,12 +1285,6 @@ function buildGoalChambers(THREE, rootGroup) {
     });
     laserCurtainMaterials.push(netMat);
 
-    // Back Net Wall (|Z| = 112.0)
-    const backNet = new THREE.Mesh(new THREE.PlaneGeometry(gw * 2.0, gh), netMat);
-    backNet.position.set(0, gh * 0.5, zGoal + dir * gd);
-    backNet.renderOrder = 2;
-    goalGroup.add(backNet);
-
     // Ceiling Net (Y = 11.0, |Z| in [100, 112])
     const ceilNetGeo = new THREE.PlaneGeometry(gw * 2.0, gd);
     ceilNetGeo.rotateX(Math.PI * 0.5);
@@ -1293,14 +1293,51 @@ function buildGoalChambers(THREE, rootGroup) {
     ceilNet.renderOrder = 2;
     goalGroup.add(ceilNet);
 
-    // Side Nets (X = ±14.0, |Z| in [100, 112])
-    const sideNetGeo = new THREE.PlaneGeometry(gd, gh);
+    // Round the rear inside corners. Straight net panels stop at each tangent.
+    const cornerRadius = ARENA_CONSTANTS.goalCornerRadius;
+    const straightSideDepth = gd - cornerRadius;
+    const sideNetGeo = new THREE.PlaneGeometry(straightSideDepth, gh);
     sideNetGeo.rotateY(Math.PI * 0.5);
     for (const side of [-1, +1]) {
       const sideNet = new THREE.Mesh(sideNetGeo, netMat);
-      sideNet.position.set(side * gw, gh * 0.5, zGoal + dir * (gd * 0.5));
+      sideNet.position.set(side * gw, gh * 0.5, zGoal + dir * (straightSideDepth * 0.5));
       sideNet.renderOrder = 2;
       goalGroup.add(sideNet);
+    }
+
+    const backNet = new THREE.Mesh(
+      new THREE.PlaneGeometry((gw - cornerRadius) * 2, gh),
+      netMat
+    );
+    backNet.position.set(0, gh * 0.5, zGoal + dir * gd);
+    backNet.renderOrder = 2;
+    goalGroup.add(backNet);
+
+    for (const side of [-1, +1]) {
+      const positions = [];
+      const segments = 16;
+      for (let i = 0; i < segments; i++) {
+        const a0 = (Math.PI * 0.5 * i) / segments;
+        const a1 = (Math.PI * 0.5 * (i + 1)) / segments;
+        const x0 = side * (gw - cornerRadius + cornerRadius * Math.cos(a0));
+        const d0 = gd - cornerRadius + cornerRadius * Math.sin(a0);
+        const x1 = side * (gw - cornerRadius + cornerRadius * Math.cos(a1));
+        const d1 = gd - cornerRadius + cornerRadius * Math.sin(a1);
+        positions.push(
+          x0, 0, zGoal + dir * d0, x1, 0, zGoal + dir * d1, 
+          x0, gh, zGoal + dir * d0,
+          x1, 0, zGoal + dir * d1, x1, gh, zGoal + dir * d1,
+          x0, gh, zGoal + dir * d0
+        );
+      }
+      const cornerGeo = new THREE.BufferGeometry();
+      cornerGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      cornerGeo.computeVertexNormals();
+      const cornerNet = new THREE.Mesh(cornerGeo, netMat);
+      cornerNet.material = netMat.clone();
+      cornerNet.material.side = THREE.DoubleSide;
+      cornerNet.renderOrder = 2;
+      goalGroup.add(cornerNet);
     }
 
     // 3. Animated Vertical Laser Scanline Curtain across Goal Mouth (renderOrder = 3, depthWrite: false)
