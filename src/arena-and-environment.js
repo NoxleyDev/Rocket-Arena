@@ -1247,29 +1247,7 @@ function buildGoalChambers(THREE, rootGroup) {
     goalFloor.renderOrder = 0;
     goalGroup.add(goalFloor);
 
-    // Curved floor strip connecting the flat floor to the back wall.
-    const arcPositions = [];
-    const arcSegments = 24;
-    for (let i = 0; i < arcSegments; i++) {
-      const a0 = (Math.PI * 0.5 * i) / arcSegments;
-      const a1 = (Math.PI * 0.5 * (i + 1)) / arcSegments;
-      const y0 = floorBackRadius * (1 - Math.cos(a0));
-      const d0 = gd - floorBackRadius + floorBackRadius * Math.sin(a0);
-      const y1 = floorBackRadius * (1 - Math.cos(a1));
-      const d1 = gd - floorBackRadius + floorBackRadius * Math.sin(a1);
-      const x0 = -gw, x1 = gw;
-      arcPositions.push(
-        x0, y0, zGoal + dir * d0, x1, y0, zGoal + dir * d0, x0, y1, zGoal + dir * d1,
-        x1, y0, zGoal + dir * d0, x1, y1, zGoal + dir * d1, x0, y1, zGoal + dir * d1
-      );
-    }
-    const floorBackGeo = new THREE.BufferGeometry();
-    floorBackGeo.setAttribute('position', new THREE.Float32BufferAttribute(arcPositions, 3));
-    floorBackGeo.computeVertexNormals();
-    const floorBack = new THREE.Mesh(floorBackGeo, goalFloorMat);
-    floorBack.receiveShadow = true;
-    floorBack.renderOrder = 0;
-    goalGroup.add(floorBack);
+    // Curved fillets are added with the matching net material below.
 
     // Structural Stanchion Arches inside the Goal Box (at |Z| = 104, 108, 112)
     for (const dOffset of [4.0, 8.0, 12.0]) {
@@ -1336,16 +1314,62 @@ function buildGoalChambers(THREE, rootGroup) {
     });
     laserCurtainMaterials.push(netMat);
 
-    // Ceiling Net (Y = 11.0, |Z| in [100, 112])
-    const ceilNetGeo = new THREE.PlaneGeometry(gw * 2.0, gd);
+    // Build all rounded goal enclosure surfaces from the same animated net
+    // material so there are no dark patches at the floor, side, or roof joins.
+    const addCurvedPatch = (pointAt, segments = 24) => {
+      const positions = [];
+      for (let i = 0; i < segments; i++) {
+        const t0 = i / segments, t1 = (i + 1) / segments;
+        const a = pointAt(t0, 0), b = pointAt(t0, 1);
+        const d = pointAt(t1, 0), e = pointAt(t1, 1);
+        positions.push(...a, ...b, ...d, ...b, ...e, ...d);
+      }
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.computeVertexNormals();
+      const mesh = new THREE.Mesh(geometry, netMat);
+      mesh.renderOrder = 2;
+      goalGroup.add(mesh);
+    };
+
+    // Floor-to-back and ceiling-to-back fillets span the full mouth width.
+    for (const roof of [false, true]) {
+      addCurvedPatch((t, u) => {
+        const angle = t * Math.PI * 0.5;
+        const y = roof
+          ? gh - cornerRadius + cornerRadius * Math.cos(angle)
+          : cornerRadius * (1 - Math.cos(angle));
+        const depth = gd - cornerRadius + cornerRadius * Math.sin(angle);
+        return [-gw + 2 * gw * u, y, zGoal + dir * depth];
+      });
+    }
+
+    // Round floor-to-side and roof-to-side joins along both side walls.
+    for (const side of [-1, 1]) {
+      for (const roof of [false, true]) {
+        addCurvedPatch((t, u) => {
+          const angle = t * Math.PI * 0.5;
+          const x = side * (gw - cornerRadius + cornerRadius * Math.sin(angle));
+          const y = roof
+            ? gh - cornerRadius + cornerRadius * Math.cos(angle)
+            : cornerRadius * (1 - Math.cos(angle));
+          const depth = straightDepth * u;
+          return [x, y, zGoal + dir * depth];
+        });
+      }
+    }
+
+    // Ceiling net ends at the tangent points of the rounded rear corners.
+    const cornerRadius = ARENA_CONSTANTS.goalCornerRadius;
+    const straightDepth = gd - cornerRadius;
+    const ceilNetGeo = new THREE.PlaneGeometry((gw - cornerRadius) * 2, straightDepth);
     ceilNetGeo.rotateX(Math.PI * 0.5);
     const ceilNet = new THREE.Mesh(ceilNetGeo, netMat);
-    ceilNet.position.set(0, gh, zGoal + dir * (gd * 0.5));
+    ceilNet.position.set(0, gh, zGoal + dir * (straightDepth * 0.5));
     ceilNet.renderOrder = 2;
     goalGroup.add(ceilNet);
 
     // Round the rear inside corners. Straight net panels stop at each tangent.
-    const cornerRadius = ARENA_CONSTANTS.goalCornerRadius;
     const straightSideDepth = gd - cornerRadius;
     const sideNetGeo = new THREE.PlaneGeometry(straightSideDepth, gh);
     sideNetGeo.rotateY(Math.PI * 0.5);
