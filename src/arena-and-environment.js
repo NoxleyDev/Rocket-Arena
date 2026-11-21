@@ -298,6 +298,24 @@ export function evalArenaSDF(x, y, z) {
       horizontalNZ = -sz;
     }
 
+    // Fillet the floor-to-back-wall junction so cars receive a continuous
+    // collision normal instead of alternating between two perpendicular planes.
+    const floorBackRadius = cornerRadius;
+    let dFloorBack = dFloor;
+    let floorBackNX = 0.0;
+    let floorBackNY = 1.0;
+    let floorBackNZ = 0.0;
+    if (y < floorBackRadius && depth > gd - floorBackRadius) {
+      const offsetY = y - floorBackRadius;
+      const offsetDepth = depth - (gd - floorBackRadius);
+      const arcDistance = Math.hypot(offsetY, offsetDepth);
+      dFloorBack = floorBackRadius - arcDistance;
+      if (arcDistance > 1e-8) {
+        floorBackNY = -offsetY / arcDistance;
+        floorBackNZ = -sz * offsetDepth / arcDistance;
+      }
+    }
+
     let minDist = dFloor;
     let nx = 0.0;
     let ny = 1.0;
@@ -315,6 +333,13 @@ export function evalArenaSDF(x, y, z) {
       nx = horizontalNX;
       ny = 0.0;
       nz = horizontalNZ;
+    }
+
+    if (dFloorBack < minDist) {
+      minDist = dFloorBack;
+      nx = floorBackNX;
+      ny = floorBackNY;
+      nz = floorBackNZ;
     }
 
     if (frameHit && frameHit.dist < minDist) {
@@ -1212,13 +1237,39 @@ function buildGoalChambers(THREE, rootGroup) {
     }
 
     // 2. Recessed 12m Deep Goal Enclosure (|Z| in [100, 112], X in [-14, +14], Y in [0, 11])
-    const floorGeo = new THREE.PlaneGeometry(gw * 2.0 + 1.2, gd + 0.6);
+    const floorBackRadius = ARENA_CONSTANTS.goalCornerRadius;
+    const straightFloorDepth = gd - floorBackRadius;
+    const floorGeo = new THREE.PlaneGeometry(gw * 2.0 + 1.2, straightFloorDepth + 0.6);
     floorGeo.rotateX(-Math.PI * 0.5);
     const goalFloor = new THREE.Mesh(floorGeo, goalFloorMat);
-    goalFloor.position.set(0, 0.01, zGoal + dir * (gd * 0.5));
+    goalFloor.position.set(0, 0.01, zGoal + dir * (straightFloorDepth * 0.5));
     goalFloor.receiveShadow = true;
     goalFloor.renderOrder = 0;
     goalGroup.add(goalFloor);
+
+    // Curved floor strip connecting the flat floor to the back wall.
+    const arcPositions = [];
+    const arcSegments = 24;
+    for (let i = 0; i < arcSegments; i++) {
+      const a0 = (Math.PI * 0.5 * i) / arcSegments;
+      const a1 = (Math.PI * 0.5 * (i + 1)) / arcSegments;
+      const y0 = floorBackRadius * (1 - Math.cos(a0));
+      const d0 = gd - floorBackRadius + floorBackRadius * Math.sin(a0);
+      const y1 = floorBackRadius * (1 - Math.cos(a1));
+      const d1 = gd - floorBackRadius + floorBackRadius * Math.sin(a1);
+      const x0 = -gw, x1 = gw;
+      arcPositions.push(
+        x0, y0, zGoal + dir * d0, x1, y0, zGoal + dir * d0, x0, y1, zGoal + dir * d1,
+        x1, y0, zGoal + dir * d0, x1, y1, zGoal + dir * d1, x0, y1, zGoal + dir * d1
+      );
+    }
+    const floorBackGeo = new THREE.BufferGeometry();
+    floorBackGeo.setAttribute('position', new THREE.Float32BufferAttribute(arcPositions, 3));
+    floorBackGeo.computeVertexNormals();
+    const floorBack = new THREE.Mesh(floorBackGeo, goalFloorMat);
+    floorBack.receiveShadow = true;
+    floorBack.renderOrder = 0;
+    goalGroup.add(floorBack);
 
     // Structural Stanchion Arches inside the Goal Box (at |Z| = 104, 108, 112)
     for (const dOffset of [4.0, 8.0, 12.0]) {
@@ -1309,7 +1360,8 @@ function buildGoalChambers(THREE, rootGroup) {
       new THREE.PlaneGeometry((gw - cornerRadius) * 2, gh),
       netMat
     );
-    backNet.position.set(0, gh * 0.5, zGoal + dir * gd);
+    backNet.scale.y = (gh - floorBackRadius) / gh;
+    backNet.position.set(0, floorBackRadius + (gh - floorBackRadius) * 0.5, zGoal + dir * gd);
     backNet.renderOrder = 2;
     goalGroup.add(backNet);
 
