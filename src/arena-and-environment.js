@@ -23,7 +23,8 @@ export const ARENA_CONSTANTS = {
   goalHalfWidth: 14.0,  // X in [-14, +14] (28m goal width)
   goalHeight: 11.0,     // Y in [0, 11] (11m goal height)
   goalDepth: 12.0,      // |Z| in [100, 112] (12m recessed goal box)
-  goalCornerRadius: 2.0, // Rounded joins between the goal side walls and back wall
+  goalCornerRadius: 4.0, // Rounded driving transitions inside goal chambers
+  goalApertureClearance: 3.5, // Open space above the crossbar for car jumps
   goalPostRadius: 0.45, // R_post = 0.45m capsule posts & crossbar
   ballRadius: 3.20
 };
@@ -271,7 +272,7 @@ export function evalArenaSDF(x, y, z) {
     // -------------------------------------------------------------------------
   // REGION 1: Inside or penetrating the Recessed Goal Chamber (|z| > 100.0)
   // -------------------------------------------------------------------------
-  if (az > L && ax < gw + 4.0 && y < gh + 3.5) {
+  if (az > L && ax < gw + 4.0 && y < gh + ARENA_CONSTANTS.goalApertureClearance) {
     const dFloor = y;
     const dCeil = gh - y;
 
@@ -342,6 +343,39 @@ export function evalArenaSDF(x, y, z) {
       nz = floorBackNZ;
     }
 
+    // Round floor/ceiling transitions into both side walls as well. This keeps
+    // wall driving continuous at the four longitudinal edges of the chamber.
+    const sideOffset = ax - (gw - cornerRadius);
+    const sideCandidates = [];
+    if (y < cornerRadius) {
+      const dy = y - cornerRadius;
+      const distance = Math.hypot(sideOffset, dy);
+      sideCandidates.push({
+        dist: cornerRadius - distance,
+        nx: distance > 1e-8 ? -sx * sideOffset / distance : -sx * 0.7071067811865475,
+        ny: distance > 1e-8 ? -dy / distance : 0.7071067811865475,
+        nz: 0.0
+      });
+    }
+    if (gh - y < cornerRadius) {
+      const dy = y - (gh - cornerRadius);
+      const distance = Math.hypot(sideOffset, dy);
+      sideCandidates.push({
+        dist: cornerRadius - distance,
+        nx: distance > 1e-8 ? -sx * sideOffset / distance : -sx * 0.7071067811865475,
+        ny: distance > 1e-8 ? -dy / distance : -0.7071067811865475,
+        nz: 0.0
+      });
+    }
+    for (const candidate of sideCandidates) {
+      if (candidate.dist < minDist) {
+        minDist = candidate.dist;
+        nx = candidate.nx;
+        ny = candidate.ny;
+        nz = candidate.nz;
+      }
+    }
+
     if (frameHit && frameHit.dist < minDist) {
       return frameHit;
     }
@@ -354,7 +388,7 @@ export function evalArenaSDF(x, y, z) {
   // -------------------------------------------------------------------------
   // If inside the goal mouth aperture (|x| < 14.0 and y < 11.0) and approaching |z| <= 100,
   // the back wall at |z| = 100 is OPEN into the recessed goal chamber!
-  const inGoalAperture = ax < gw && y < gh && az > 76.0;
+  const inGoalAperture = ax < gw && y < gh + ARENA_CONSTANTS.goalApertureClearance && az > 76.0;
 
   if (inGoalAperture) {
     const dFloor = y;
@@ -967,13 +1001,14 @@ function buildArenaCageGeometries(THREE) {
     const zm = 0.5 * (s0.z + s1.z);
     const isGoalColumn = Math.abs(zm) > 99.0 && Math.abs(xm) < gw;
 
-    // Above the goal mouth, the glass wall begins at the crossbar (y = 11.0m);
-    // everywhere else it begins at the top of the bottom ramp (y = 8.0m).
+    // Leave a car-sized jump opening above the crossbar; the gameplay SDF uses
+    // the same clearance so the visible wall and collision boundary agree.
+    const goalPassHeight = gh + ARENA_CONSTANTS.goalApertureClearance;
     const yStart0 = isGoalColumn
-      ? gh
+      ? goalPassHeight
       : (s0.isBackWall ? getBottomFilletRadiusAt(s0.x, s0.z) : Rf);
     const yStart1 = isGoalColumn
-      ? gh
+      ? goalPassHeight
       : (s1.isBackWall ? getBottomFilletRadiusAt(s1.x, s1.z) : Rf);
 
     const baseIdx = glassPositions.length / 3;
