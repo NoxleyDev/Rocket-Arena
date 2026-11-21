@@ -70,14 +70,17 @@ jsDelivr y las fuentes externas.
 
 ### Compilar la versión independiente
 
-Con Python instalado, abre una terminal en la carpeta del proyecto y
-ejecuta:
+La página principal carga los módulos de `src/` directamente. Para generar
+el build independiente, ejecuta desde la raíz:
 
-``` bash
-python3 -m http.server 8000
+```bash
+python3 scripts/bundle_index.py
 ```
 
-Después visita `http://localhost:8000`.
+El script actualiza `dist/app-bundle.js` y genera un `index.html` con el
+código integrado. Después, sirve el proyecto por HTTP (por ejemplo, con
+`python3 -m http.server 8000`) y abre `http://localhost:8000`. No abras el
+HTML mediante `file://`: el navegador puede bloquear los módulos ES locales.
 
 ## Controles
 
