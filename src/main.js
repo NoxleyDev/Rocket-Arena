@@ -280,7 +280,7 @@ function canRegisterAchievement(evt) {
 
           if (
             canRegisterAchievement(evt) &&
-            evt.team === (physics.playerCar?.team || 'blue')
+            evt.carId === physics.playerCar?.id
           ) {
             hud.showMedal(evt.label);
           }
@@ -306,7 +306,6 @@ function canRegisterAchievement(evt) {
         audio.playGoalHornAndCrowd();
         break;
       }
-      case 'FIRST TOUCH':
       // ----------------------------------------------------------------------
       // MATCH ACHIEVEMENTS
       // ----------------------------------------------------------------------
@@ -330,11 +329,9 @@ function canRegisterAchievement(evt) {
           recordMatchStat(evt.carId, 'saves');
         }
 
-        // Only display achievements earned by the player's team.
-        const playerTeam = physics.playerCar?.team || 'blue';
-
+        // Only show medals earned by the local player's car.
         if (
-          evt.team === playerTeam &&
+          evt.carId === physics.playerCar?.id &&
           evt.label
         ) {
           hud.showMedal(evt.label);
@@ -346,11 +343,9 @@ function canRegisterAchievement(evt) {
       case 'AWARD': {
 
         // Fallback for generic awards.
-        const playerTeam = physics.playerCar?.team || 'blue';
-
         if (
           evt.type !== 'GOAL' &&
-          evt.team === playerTeam &&
+          evt.carId === physics.playerCar?.id &&
           evt.label &&
           canRegisterAchievement(evt)
         ) {
