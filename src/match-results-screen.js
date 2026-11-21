@@ -665,7 +665,7 @@ export class MatchResultsScreen {
               <th>Goals</th>
               <th>Shots on goal</th>
               <th>Saves</th>
-              <th>Demos</th>
+              <th>Demolitions</th>
               <th>Touches</th>
             </tr>
           </thead>
