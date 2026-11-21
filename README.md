@@ -28,7 +28,10 @@ visuales, audio procedural y diferentes modos de juego.
 -   Vehículo Octane-RLX y pelota 3D.
 -   Física de conducción, suspensión, saltos, giros, derrapes y
     propulsión.
--   Conducción por suelo, paredes curvas y techo.
+-   Conducción por el suelo, las paredes curvas y el techo de la arena.
+-   Transiciones redondeadas en las porterías; la conducción completa desde
+    la rampa interior hasta el techo y la salida sobre el larguero sigue
+    pendiente de verificación jugable.
 -   Cámara Ball-Cam y Car-Cam.
 -   Repeticiones de gol con historial temporal e interpolación.
 -   Bots con distintos niveles de dificultad.
@@ -158,13 +161,28 @@ El script genera `dist/app-bundle.js` y una versión independiente en
 directamente; para publicar un build independiente, ejecuta el script y
 revisa ambos archivos generados.
 
+## Audio y créditos
+
+- **Driftway** — música de **-Xaf-** (artista identificado como HappyXaf en
+  [Newgrounds](https://www.newgrounds.com/audio/listen/1636539)). La ficha
+  ofrece la obra bajo [Creative Commons Attribution 3.0 (CC BY 3.0)](https://creativecommons.org/licenses/by/3.0/).
+  Se debe conservar este crédito y la licencia al redistribuir la pista.
+- **Midnight Dream** — música de **Saavane**, con procedencia reportada desde
+  [Pixabay](https://pixabay.com/users/saavane-32312792/). Pixabay permite
+  usar sus contenidos sujetos a su [Content License](https://pixabay.com/service/license-summary/)
+  y recomienda aunque no exige atribución. No he podido localizar la ficha
+  específica de esta pista; conserva la URL o comprobante de descarga original
+  para acreditar que este archivo concreto procede de Pixabay y se descargó
+  bajo esa licencia. No distribuyas el archivo de audio por separado.
+
+La licencia MIT del repositorio cubre el código y la documentación del
+proyecto, no concede por sí misma derechos sobre estas pistas ni sobre otros
+recursos de terceros.
+
 ## Estado y limitaciones conocidas
 
-El proyecto ha pasado comprobaciones estáticas de sintaxis y
-compilación. El rendimiento gráfico, la compatibilidad entre
-navegadores, los mandos y los controles táctiles deben verificarse en
-los dispositivos de destino.
-
-Rocket Arena es un proyecto independiente de fútbol de coches. No está
+Rocket Arena es un juego independiente de fútbol de coches. No está
 afiliado, patrocinado ni respaldado por los titulares de marcas o
-videojuegos de terceros.
+videojuegos de terceros. La compatibilidad entre navegadores, mandos y
+controles táctiles, así como el rendimiento y la conducción en las rampas
+interiores de las porterías, deben verificarse en los dispositivos objetivo.
