@@ -168,7 +168,7 @@ revisa ambos archivos generados.
 
 El reproductor incluye seis pistas de fondo. Los MP3 y las imágenes indicadas están en `music/`:
 
-- **Midnight Dream** — música de **Saavane**, [ficha de Pixabay](https://pixabay.com/music/upbeat-free-video-game-edit-music-390818/); imagen `Saavane-Midnight Dream-Icon.png`. La ficha indica registro en Content ID; guarda el comprobante de descarga.
+- **Midnight Dream** (nombre usado por el juego; la ficha se titula **Free Video Game Edit Music**) — música de **Saavane**, [ficha de Pixabay](https://pixabay.com/music/upbeat-free-video-game-edit-music-390818/); imagen `Saavane-Midnight Dream-Icon.png`. La ficha indica registro en Content ID; guarda el comprobante de descarga.
 - **Neon Overdrive** — música de **MrOneILoveALot**, [ficha de Pixabay](https://pixabay.com/music/synthwave-neon-overdrive-cyberpunk-gaming-edm-415723/); imagen `Neon-Overdrive-Icon.png`.
 - **Midnight Rush** — música de **FASSounds**; imagen `FASSounds.jpg`. El propietario del proyecto indica que procede de Pixabay, pero no se ha podido verificar una ficha pública exacta. Conserva la URL original y el comprobante de descarga.
 - **Race Cars** — música de **FASSounds**, [ficha de Pixabay](https://pixabay.com/music/upbeat-race-cars-phonk-gaming-music-196477/); usa `FASSounds.jpg` como imagen. La ficha indica registro en Content ID; conserva el comprobante de descarga para responder a posibles reclamaciones automáticas.
