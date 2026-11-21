@@ -11,7 +11,7 @@ const DEFAULT_MUSIC_TRACKS = [
     artist: 'Saavane',
     src: './music/Midnight Dream (Saavane).wav',
     artwork: './music/Saavane-Midnight Dream-Icon.png',
-    licenseNote: 'Pixabay Content License; source: https://pixabay.com/music/upbeat-free-video-game-edit-music-390818/.'
+    licenseNote: 'Pixabay Content License; source: https://pixabay.com/music/upbeat-free-video-game-edit-music-390818/ (Content ID registered; keep download proof).'
   },
   {
     id: 'neon-overdrive',
@@ -43,7 +43,7 @@ const DEFAULT_MUSIC_TRACKS = [
     artist: 'FASSounds',
     src: './music/Candy - FASSounds.mp3',
     artwork: './music/FASSounds.jpg',
-    licenseNote: 'Pixabay Content License; source: https://pixabay.com/music/dance-candy-vocal-gaming-pop-music-198506/.'
+    licenseNote: 'Pixabay Content License; source: https://pixabay.com/music/dance-candy-vocal-gaming-pop-music-198506/ (Content ID registered; keep download proof).'
   },
   {
     id: 'driftway',
