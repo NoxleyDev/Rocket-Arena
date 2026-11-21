@@ -1226,22 +1226,27 @@ function buildGoalChambers(THREE, rootGroup) {
       const ribMat = dOffset === 12.0 ? neonMat : darkFrameMat;
       const ribR = dOffset === 12.0 ? 0.32 : 0.26;
 
+      const topRibWidth = dOffset === gd
+        ? (gw - ARENA_CONSTANTS.goalCornerRadius) * 2.0
+        : gw * 2.0 + 0.6;
       const topRib = new THREE.Mesh(
-        new THREE.BoxGeometry(gw * 2.0 + 0.6, ribR * 2, ribR * 2),
+        new THREE.BoxGeometry(topRibWidth, ribR * 2, ribR * 2),
         ribMat
       );
       topRib.position.set(0, gh, zRib);
       topRib.renderOrder = 0;
       goalGroup.add(topRib);
 
-      for (const side of [-1, +1]) {
-        const sideRib = new THREE.Mesh(
-          new THREE.BoxGeometry(ribR * 2, gh, ribR * 2),
-          ribMat
-        );
-        sideRib.position.set(side * gw, gh * 0.5, zRib);
-        sideRib.renderOrder = 0;
-        goalGroup.add(sideRib);
+      if (dOffset < gd) {
+        for (const side of [-1, +1]) {
+          const sideRib = new THREE.Mesh(
+            new THREE.BoxGeometry(ribR * 2, gh, ribR * 2),
+            ribMat
+          );
+          sideRib.position.set(side * gw, gh * 0.5, zRib);
+          sideRib.renderOrder = 0;
+          goalGroup.add(sideRib);
+        }
       }
     }
 
