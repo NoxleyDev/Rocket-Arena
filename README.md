@@ -175,6 +175,10 @@ revisa ambos archivos generados.
 - **Midnight Rush** — música de **FASSounds**. La procedencia Pixabay la ha indicado el propietario del proyecto, pero no se ha podido verificar una ficha pública exacta; conserva la URL y el comprobante de descarga originales.
 - **Race Cars** — música de **FASSounds**, [ficha de Pixabay](https://pixabay.com/music/upbeat-race-cars-phonk-gaming-music-196477/). La ficha indica que está registrada en Content ID; conserva el comprobante de descarga y responde a cualquier reclamación con esa documentación.
 
+Pixabay permite usar y adaptar sus contenidos bajo la [Licencia de contenido](https://pixabay.com/service/license-summary/) sin atribución obligatoria. La licencia no permite redistribuir el contenido como archivo independiente o como producto cuyo valor principal sea ese contenido. El crédito en este README es informativo y no sustituye la licencia. Guarda las fichas y comprobantes de descarga de cada audio e imagen; el registro en Content ID puede generar reclamaciones automáticas que se tendrán que resolver con esa documentación.
+
+El reproductor ya apunta a los nombres de archivo de las tres pistas nuevas, pero esos MP3 y los iconos nuevos todavía no están en el repositorio. Para que suenen y se vean, añade a `music/` `Neon Overdrive - MrOneILoveALot.mp3`, `Neon-Overdrive-Icon.png`, `Midnight Rush - FASSounds.mp3`, `FASSounds.jpg` y `Race Cars - FASSounds.mp3`. Se usa un único registro para `Race Cars`, porque se indicó dos veces.
+
 La licencia MIT del repositorio cubre el código y la documentación del
 proyecto, no concede por sí misma derechos sobre estas pistas ni sobre otros
 recursos de terceros.
