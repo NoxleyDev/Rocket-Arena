@@ -11,7 +11,7 @@ const DEFAULT_MUSIC_TRACKS = [
     artist: 'Saavane',
     src: './music/Midnight Dream (Saavane).wav',
     artwork: './music/Saavane-Midnight Dream-Icon.png',
-    licenseNote: 'Pixabay source reported by project owner; edited file, verify applicable terms before redistribution.'
+    licenseNote: 'Pixabay Content License; source: https://pixabay.com/music/upbeat-free-video-game-edit-music-390818/.'
   },
   {
     id: 'neon-overdrive',
@@ -19,7 +19,7 @@ const DEFAULT_MUSIC_TRACKS = [
     artist: 'MrOneILoveALot',
     src: './music/Neon Overdrive - MrOneILoveALot.mp3',
     artwork: './music/Neon-Overdrive-Icon.png',
-    licenseNote: 'Pixabay License; retain the source and download record.'
+    licenseNote: 'Pixabay Content License; source: https://pixabay.com/music/synthwave-neon-overdrive-cyberpunk-gaming-edm-415723/.'
   },
   {
     id: 'midnight-rush',
@@ -27,7 +27,7 @@ const DEFAULT_MUSIC_TRACKS = [
     artist: 'FASSounds',
     src: './music/Midnight Rush - FASSounds.mp3',
     artwork: './music/FASSounds.jpg',
-    licenseNote: 'Pixabay License reported by project owner; exact source page not yet verified.'
+    licenseNote: 'Pixabay Content License reported by project owner; exact source page not independently verified. Keep the original download record.'
   },
   {
     id: 'race-cars',
@@ -35,7 +35,15 @@ const DEFAULT_MUSIC_TRACKS = [
     artist: 'FASSounds',
     src: './music/Race Cars - FASSounds.mp3',
     artwork: './music/FASSounds.jpg',
-    licenseNote: 'Pixabay License; retain the source and download record.'
+    licenseNote: 'Pixabay Content License; source: https://pixabay.com/music/upbeat-race-cars-phonk-gaming-music-196477/ (Content ID registered; keep download proof).' 
+  },
+  {
+    id: 'candy',
+    title: 'Candy',
+    artist: 'FASSounds',
+    src: './music/Candy - FASSounds.mp3',
+    artwork: './music/FASSounds.jpg',
+    licenseNote: 'Pixabay Content License; source: https://pixabay.com/music/dance-candy-vocal-gaming-pop-music-198506/.'
   },
   {
     id: 'driftway',
@@ -43,7 +51,7 @@ const DEFAULT_MUSIC_TRACKS = [
     artist: '-Xaf-',
     src: './music/driftway.mp3',
     artwork: './music/driftway-icon.png',
-    licenseNote: 'Creative Commons Attribution (CC BY); retain appropriate attribution and source details.'
+    licenseNote: 'Creative Commons Attribution 3.0 (CC BY 3.0); https://www.newgrounds.com/audio/listen/1636539 and https://creativecommons.org/licenses/by/3.0/.'
   }
 ];
 
