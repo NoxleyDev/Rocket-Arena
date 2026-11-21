@@ -14,6 +14,30 @@ const DEFAULT_MUSIC_TRACKS = [
     licenseNote: 'Pixabay source reported by project owner; edited file, verify applicable terms before redistribution.'
   },
   {
+    id: 'neon-overdrive',
+    title: 'Neon Overdrive',
+    artist: 'MrOneILoveALot',
+    src: './music/Neon Overdrive - MrOneILoveALot.mp3',
+    artwork: './music/Neon-Overdrive-Icon.png',
+    licenseNote: 'Pixabay License; retain the source and download record.'
+  },
+  {
+    id: 'midnight-rush',
+    title: 'Midnight Rush',
+    artist: 'FASSounds',
+    src: './music/Midnight Rush - FASSounds.mp3',
+    artwork: './music/FASSounds.jpg',
+    licenseNote: 'Pixabay License reported by project owner; exact source page not yet verified.'
+  },
+  {
+    id: 'race-cars',
+    title: 'Race Cars',
+    artist: 'FASSounds',
+    src: './music/Race Cars - FASSounds.mp3',
+    artwork: './music/FASSounds.jpg',
+    licenseNote: 'Pixabay License; retain the source and download record.'
+  },
+  {
     id: 'driftway',
     title: 'Driftway',
     artist: '-Xaf-',
