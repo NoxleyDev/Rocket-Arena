@@ -26,6 +26,7 @@ visuales, audio procedural y diferentes modos de juego.
 -   Estadio 3D DFH Neo-Dome con porterías, superficies curvas y
     plataformas de impulso.
 -   Vehículo Octane-RLX y pelota 3D.
+-   Carga compartida del balón: una barra por toque, umbral de 20/40/50 según modo y golpe cargado con impulso x1,75 y aura naranja.
 -   Física de conducción, suspensión, saltos, giros, derrapes y
     propulsión.
 -   Conducción por el suelo, las paredes curvas y el techo de la arena.
