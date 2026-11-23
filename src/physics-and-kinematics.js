@@ -783,6 +783,9 @@ export class PhysicsWorld {
       lastTouchCarId: null,
       lastTouchTime: -999,
       seamColor: '#00f0ff',
+      touchCount: 0,
+      touchTarget: 20,
+      chargedTouchReady: false,
       hitStopTimer: 0,
       firstTouchAwarded: false
     };
@@ -956,6 +959,11 @@ export class PhysicsWorld {
     }
 
     this.mode = normalized;
+    if (this.ball) {
+      this.ball.touchTarget = normalized === '3v3' ? 50 : (normalized === '2v2' ? 40 : 20);
+      this.ball.touchCount = 0;
+      this.ball.chargedTouchReady = false;
+    }
     this.cars = [];
 
     const blueSlots = KICKOFF_SLOTS.blue;
@@ -1098,6 +1106,9 @@ export class PhysicsWorld {
     this.ball.lastTouchTeam = 'neutral';
     this.ball.lastTouchCarId = null;
     this.ball.seamColor = '#00f0ff';
+    this.ball.touchCount = 0;
+    this.ball.touchTarget = this.mode === '3v3' ? 50 : (this.mode === '2v2' ? 40 : 20);
+    this.ball.chargedTouchReady = false;
     this.ball.firstTouchAwarded = false;
     this.ball.hitStopTimer = 0;
 
@@ -2677,6 +2688,9 @@ if (
         const rvz = ball.velocity.z - car.velocity.z;
         const relVn = rvx * nx + rvy * ny + rvz * nz;
 
+        // Count only a real approach impulse; resting overlap must not farm charge every physics frame.
+        if (relVn >= -0.25) continue;
+
         // Psyonix-style forward-and-upward directed bias vector from car COM to ball center
         let biasX = ball.position.x - car.position.x + car.forward.x * 1.4;
         let biasY = (ball.position.y - car.position.y) * 0.45 + 0.38 * R;
@@ -2705,9 +2719,12 @@ if (
 
         // Compute hit launch speed with 1.35x power multiplier when mid-Dodge-Flip or Supersonic
         const powerMultiplier = (car.isFlipping || car.isSupersonic) ? 1.35 : 1.0;
+        const touchTarget = Math.max(1, Math.min(50, Math.floor(ball.touchTarget || 20)));
+        const usesChargedTouch = ball.touchCount >= touchTarget;
+        const touchChargeMultiplier = usesChargedTouch ? 1.75 : 1.0;
         const closingSpeed = Math.max(0, -relVn);
         const carSpeed = car.speed;
-        const baseLaunch = Math.max(carSpeed * 1.15 + closingSpeed * 0.55, 14.0) * powerMultiplier;
+        const baseLaunch = Math.max(carSpeed * 1.15 + closingSpeed * 0.55, 14.0) * powerMultiplier * touchChargeMultiplier;
 
         if (relVn < 6.0) {
           ball.velocity.x = car.velocity.x * 0.35 + hitDirX * baseLaunch;
@@ -2723,6 +2740,11 @@ if (
         // Subtle recoil on car
         car.velocity.x -= nx * 1.8;
         car.velocity.z -= nz * 1.8;
+
+        // Consume a full charge on this impact, or add one mark toward the next charged strike.
+        ball.touchTarget = touchTarget;
+        ball.touchCount = usesChargedTouch ? 0 : Math.min(touchTarget, ball.touchCount + 1);
+        ball.chargedTouchReady = ball.touchCount >= touchTarget;
 
         // Update ball touch metadata & glowing seam color
         ball.lastTouchTeam = car.team;
@@ -2742,7 +2764,10 @@ if (
           team: car.team,
           contactPoint: { x: closestX, y: closestY, z: closestZ },
           ballSpeedKph: Math.round(ball.speedKph),
-          isPowerStrike: Boolean(car.isFlipping || car.isSupersonic)
+          isPowerStrike: Boolean(car.isFlipping || car.isSupersonic),
+          touchCount: ball.touchCount,
+          touchTarget: ball.touchTarget,
+          isChargedTouch: usesChargedTouch
         });
 
         // Emit Award Medals per Spec Section 2.3
