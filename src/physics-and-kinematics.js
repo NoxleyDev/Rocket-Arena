@@ -2731,12 +2731,17 @@ if (
         const touchChargeMultiplier = usesChargedTouch ? 1.75 : 1.0;
         const closingSpeed = Math.max(0, -relVn);
         const carSpeed = car.speed;
-        const baseLaunch = Math.max(carSpeed * 1.15 + closingSpeed * 0.55, 14.0) * powerMultiplier * touchChargeMultiplier;
+        const baseLaunch = Math.max(carSpeed * 1.15 + closingSpeed * 0.55, 14.0) * powerMultiplier;
 
         if (relVn < 6.0) {
           ball.velocity.x = car.velocity.x * 0.35 + hitDirX * baseLaunch;
           ball.velocity.y = Math.max(ball.velocity.y * 0.25 + hitDirY * baseLaunch, 4.5);
           ball.velocity.z = car.velocity.z * 0.35 + hitDirZ * baseLaunch;
+          if (usesChargedTouch) {
+            ball.velocity.x *= touchChargeMultiplier;
+            ball.velocity.y *= touchChargeMultiplier;
+            ball.velocity.z *= touchChargeMultiplier;
+          }
         }
 
         // Impart forward rolling spin + impact spin to the ball
