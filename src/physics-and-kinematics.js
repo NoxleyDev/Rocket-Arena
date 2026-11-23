@@ -786,6 +786,7 @@ export class PhysicsWorld {
       touchCount: 0,
       touchTarget: 20,
       chargedTouchReady: false,
+      chargedSpeedCapActive: false,
       hitStopTimer: 0,
       firstTouchAwarded: false
     };
@@ -1109,6 +1110,7 @@ export class PhysicsWorld {
     this.ball.touchCount = 0;
     this.ball.touchTarget = this.mode === '3v3' ? 50 : (this.mode === '2v2' ? 40 : 20);
     this.ball.chargedTouchReady = false;
+    this.ball.chargedSpeedCapActive = false;
     this.ball.firstTouchAwarded = false;
     this.ball.hitStopTimer = 0;
 
@@ -2491,14 +2493,18 @@ if (
     ball.velocity.y *= drag;
     ball.velocity.z *= drag;
 
-    // Clamp max ball speed to 60 m/s (216 KPH)
+    // A charged strike may temporarily exceed the normal 60 m/s ball cap by up to 1.75x.
+    const maxBallSpeed = ball.chargedSpeedCapActive ? 105.0 : 60.0;
     let speed = Math.hypot(ball.velocity.x, ball.velocity.y, ball.velocity.z);
-    if (speed > 60.0) {
-      const scale = 60.0 / speed;
+    if (speed > maxBallSpeed) {
+      const scale = maxBallSpeed / speed;
       ball.velocity.x *= scale;
       ball.velocity.y *= scale;
       ball.velocity.z *= scale;
-      speed = 60.0;
+      speed = maxBallSpeed;
+    }
+    if (ball.chargedSpeedCapActive && speed <= 60.0) {
+      ball.chargedSpeedCapActive = false;
     }
 
     // 4. Integrate Position
@@ -2745,6 +2751,7 @@ if (
         ball.touchTarget = touchTarget;
         ball.touchCount = usesChargedTouch ? 0 : Math.min(touchTarget, ball.touchCount + 1);
         ball.chargedTouchReady = ball.touchCount >= touchTarget;
+        ball.chargedSpeedCapActive = usesChargedTouch;
 
         // Update ball touch metadata & glowing seam color
         ball.lastTouchTeam = car.team;
