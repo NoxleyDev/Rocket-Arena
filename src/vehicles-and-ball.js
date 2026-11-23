@@ -2567,7 +2567,7 @@ export function createSoccerBallMesh(THREEOrRadius = 3.20, maybeRadius = 3.20) {
     touchCounterCanvases,
     touchCounterTextures,
     touchAura,
-    touchTarget: 20,
+    touchTarget: -1,
     touchCount: -1,
     chargedTouchActive: false,
     touchAuraPhase: 0,
