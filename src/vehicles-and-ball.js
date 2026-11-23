@@ -2414,6 +2414,90 @@ export function createSoccerBallMesh(THREEOrRadius = 3.20, maybeRadius = 3.20) {
     ledNodes.push(nodeMesh);
   }
 
+    // Midline touch charge: one dark equatorial seam with up to 50 individually lit segments.
+  const touchLineMat = new THREE.MeshStandardMaterial({
+    color: 0x030609,
+    roughness: 0.58,
+    metalness: 0.28
+  });
+  const touchLine = new THREE.Mesh(
+    new THREE.TorusGeometry(radius * 1.008, Math.max(0.035, radius * 0.012), 8, 128),
+    touchLineMat
+  );
+  touchLine.name = 'ballTouchChargeMidline';
+  touchLine.renderOrder = 2;
+  spinGroup.add(touchLine);
+
+  const touchBarMat = new THREE.MeshStandardMaterial({
+    color: 0x00f5e5,
+    emissive: 0x00f5e5,
+    emissiveIntensity: 2.4,
+    roughness: 0.24,
+    metalness: 0.18,
+    toneMapped: false
+  });
+  const touchBarGeo = new THREE.BoxGeometry(1, Math.max(0.12, radius * 0.045), Math.max(0.09, radius * 0.032));
+  const touchBars = [];
+  for (let i = 0; i < 50; i++) {
+    const bar = new THREE.Mesh(touchBarGeo, touchBarMat);
+    bar.name = `ballTouchChargeBar_${i + 1}`;
+    bar.visible = false;
+    bar.renderOrder = 3;
+    spinGroup.add(bar);
+    touchBars.push(bar);
+  }
+
+  const touchCounterCanvases = [];
+  const touchCounterTextures = [];
+  const touchCounters = [];
+  for (let i = 0; i < 2; i++) {
+    let counterMaterial;
+    if (typeof document !== 'undefined' && typeof document.createElement === 'function') {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const texture = new THREE.CanvasTexture(canvas);
+      if ('colorSpace' in texture && THREE.SRGBColorSpace) texture.colorSpace = THREE.SRGBColorSpace;
+      touchCounterCanvases.push(canvas);
+      touchCounterTextures.push(texture);
+      counterMaterial = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+        toneMapped: false
+      });
+    } else {
+      touchCounterCanvases.push(null);
+      touchCounterTextures.push(null);
+      counterMaterial = new THREE.MeshBasicMaterial({ color: 0x030609, side: THREE.DoubleSide });
+    }
+
+    const counter = new THREE.Mesh(new THREE.CircleGeometry(radius * 0.145, 48), counterMaterial);
+    counter.name = i === 0 ? 'ballTouchChargeTopCounter' : 'ballTouchChargeBottomCounter';
+    counter.position.y = i === 0 ? radius * 1.012 : -radius * 1.012;
+    counter.rotation.x = i === 0 ? -Math.PI / 2 : Math.PI / 2;
+    counter.renderOrder = 4;
+    spinGroup.add(counter);
+    touchCounters.push(counter);
+  }
+
+  const touchAura = new THREE.Mesh(
+    new THREE.SphereGeometry(radius * 1.12, 24, 18),
+    new THREE.MeshBasicMaterial({
+      color: 0xff7a18,
+      transparent: true,
+      opacity: 0,
+      side: THREE.BackSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      toneMapped: false
+    })
+  );
+  touchAura.name = 'ballTouchChargeOrangeAura';
+  touchAura.renderOrder = 0;
+  ballRoot.add(touchAura);
+
   // 5. Dynamic Ground Target Projection Ring (`ballMesh.groundIndicator`, `renderOrder = 1`)
   const groundIndicator = new THREE.Group();
   groundIndicator.name = 'ballGroundIndicator';
@@ -2477,6 +2561,16 @@ export function createSoccerBallMesh(THREEOrRadius = 3.20, maybeRadius = 3.20) {
     seamCoreMat,
     ledNodeMat,
     ledNodes,
+    touchBars,
+    touchBarMat,
+    touchCounters,
+    touchCounterCanvases,
+    touchCounterTextures,
+    touchAura,
+    touchTarget: 20,
+    touchCount: -1,
+    chargedTouchActive: false,
+    touchAuraPhase: 0,
     groundIndicator,
     outerRingMesh,
     innerRingMesh,
@@ -2521,7 +2615,67 @@ export function updateSoccerBallVisuals(ballMesh, ballState = {}, dt = 1 / 60) {
     ud.spinGroup.rotation.z += wz * safeDt;
   }
 
-  // 3. Team Seam Color & Goal-Proximity Pulse
+  // 3. Render the shared touch charge on the equator and both pole counters.
+  const touchTarget = Math.max(1, Math.min(50, Math.floor(Number(ballState.touchTarget) || 20)));
+  const touchCount = Math.max(0, Math.min(touchTarget, Math.floor(Number(ballState.touchCount) || 0)));
+  const chargedTouchActive = touchCount >= touchTarget;
+
+  if (ud.touchTarget !== touchTarget) {
+    const segmentArc = (Math.PI * 2 * radius) / touchTarget;
+    for (let i = 0; i < ud.touchBars.length; i++) {
+      const bar = ud.touchBars[i];
+      bar.visible = i < touchTarget;
+      if (!bar.visible) continue;
+      const angle = ((i + 0.5) / touchTarget) * Math.PI * 2;
+      const ringRadius = radius * 1.028;
+      bar.position.set(Math.sin(angle) * ringRadius, 0, Math.cos(angle) * ringRadius);
+      bar.rotation.set(0, angle, 0);
+      bar.scale.x = Math.max(0.12, segmentArc * 0.66);
+    }
+    ud.touchTarget = touchTarget;
+  }
+
+  const chargeColor = chargedTouchActive ? 0xff7a18 : 0x00f5e5;
+  ud.touchBarMat.color.setHex(chargeColor);
+  ud.touchBarMat.emissive.setHex(chargeColor);
+  ud.touchAuraPhase += safeDt * 3.4;
+  ud.touchAura.material.opacity = chargedTouchActive
+    ? 0.10 + 0.045 * (0.5 + 0.5 * Math.sin(ud.touchAuraPhase))
+    : 0;
+
+  if (
+    ud.touchCount !== touchCount ||
+    ud.chargedTouchActive !== chargedTouchActive ||
+    ud.lastCounterTarget !== touchTarget
+  ) {
+    const color = chargedTouchActive ? '#ff8a24' : '#00f5e5';
+    for (let i = 0; i < ud.touchCounterCanvases.length; i++) {
+      const canvas = ud.touchCounterCanvases[i];
+      const texture = ud.touchCounterTextures[i];
+      if (!canvas || !texture) continue;
+      const context = canvas.getContext('2d');
+      if (!context) continue;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.beginPath();
+      context.arc(128, 128, 116, 0, Math.PI * 2);
+      context.fillStyle = '#030609';
+      context.fill();
+      context.lineWidth = 10;
+      context.strokeStyle = color;
+      context.stroke();
+      context.fillStyle = color;
+      context.font = '900 112px Arial, sans-serif';
+      context.textAlign = 'center';
+      context.textBaseline = 'middle';
+      context.fillText(String(touchCount), 128, 132);
+      texture.needsUpdate = true;
+    }
+    ud.touchCount = touchCount;
+    ud.chargedTouchActive = chargedTouchActive;
+    ud.lastCounterTarget = touchTarget;
+  }
+
+  // 4. Team Seam Color & Goal-Proximity Pulse
   const team = String(ballState.lastTouchTeam || 'neutral').toLowerCase();
   let targetHex = 0x00f0ff; // Neutral Cyan
   if (team === 'blue') targetHex = 0x2979ff;
