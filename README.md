@@ -20,7 +20,7 @@ visuales, audio procedural y diferentes modos de juego.
 
 ## Características
 
--   Partidos **1 contra 1** y **2 contra 2**.
+-   Partidos **1 contra 1**, **2 contra 2** y **3 contra 3**.
 -   Modo de juego libre (*Free Play*).
 -   Exhibición automática con vehículos controlados por IA.
 -   Estadio 3D DFH Neo-Dome con porterías, superficies curvas y
