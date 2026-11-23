@@ -2425,6 +2425,7 @@ export function createSoccerBallMesh(THREEOrRadius = 3.20, maybeRadius = 3.20) {
     touchLineMat
   );
   touchLine.name = 'ballTouchChargeMidline';
+  touchLine.rotation.x = Math.PI / 2;
   touchLine.renderOrder = 2;
   spinGroup.add(touchLine);
 
