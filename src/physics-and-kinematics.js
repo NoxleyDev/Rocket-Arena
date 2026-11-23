@@ -964,6 +964,7 @@ export class PhysicsWorld {
       this.ball.touchTarget = normalized === '3v3' ? 50 : (normalized === '2v2' ? 40 : 20);
       this.ball.touchCount = 0;
       this.ball.chargedTouchReady = false;
+      this.ball.chargedSpeedCapActive = false;
     }
     this.cars = [];
 
