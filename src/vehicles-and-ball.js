@@ -2616,6 +2616,7 @@ export function updateSoccerBallVisuals(ballMesh, ballState = {}, dt = 1 / 60) {
   }
 
   // 3. Render the shared touch charge on the equator and both pole counters.
+  const radius = Number(ud.radius) || 3.2;
   const touchTarget = Math.max(1, Math.min(50, Math.floor(Number(ballState.touchTarget) || 20)));
   const touchCount = Math.max(0, Math.min(touchTarget, Math.floor(Number(ballState.touchCount) || 0)));
   const chargedTouchActive = touchCount >= touchTarget;
