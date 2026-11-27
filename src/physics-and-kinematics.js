@@ -390,7 +390,7 @@ function updateCarBasis(car) {
  *  - (nx, ny, nz) is the inward-pointing unit surface normal
  *  - surfaceType in ['floor', 'ramp', 'wall', 'ceiling', 'goal', 'goal_post']
  */
-export function defaultEvalArenaSDF(x, y, z) {
+export function defaultEvalArenaSDF(x, y, z, { ignoreGoalCrossbar = false } = {}) {
   x = safeFinite(x, 0);
   y = safeFinite(y, 2);
   z = safeFinite(z, 0);
@@ -555,7 +555,7 @@ export function defaultEvalArenaSDF(x, y, z) {
       nz = dzP / dPostCenter;
       surfaceType = 'goal_post';
     }
-    if (dBarSurf < dist && dBarCenter > 1e-6) {
+    if (!ignoreGoalCrossbar && dBarSurf < dist && dBarCenter > 1e-6) {
       dist = dBarSurf;
       nx = dxB / dBarCenter;
       ny = dyB / dBarCenter;
@@ -574,6 +574,10 @@ export function defaultEvalArenaSDF(x, y, z) {
   }
 
   return { dist, nx, ny, nz, surfaceType };
+}
+
+export function defaultEvalArenaSDFForCars(x, y, z) {
+  return defaultEvalArenaSDF(x, y, z, { ignoreGoalCrossbar: true });
 }
 
 // ============================================================================
@@ -649,6 +653,12 @@ export class PhysicsWorld {
       (globalArena && typeof globalArena.evalArenaSDF === 'function'
         ? globalArena.evalArenaSDF
         : defaultEvalArenaSDF);
+    this.evalArenaSDFForCars =
+      options.evalArenaSDFForCars ||
+      (options.evalArenaSDF ? options.evalArenaSDF :
+        (globalArena && typeof globalArena.evalArenaSDFForCars === 'function'
+          ? globalArena.evalArenaSDFForCars
+          : defaultEvalArenaSDFForCars));
 
     const padLayout =
       options.boostPadLayout ||
@@ -699,7 +709,7 @@ export class PhysicsWorld {
       const isFull = p.type === 'full' || p.boost === 100;
       const boostAmt = p.boost || (isFull ? 100 : 12);
       const respawnSec = p.respawn || (isFull ? 10.0 : 4.0);
-      const rad = (p.radius || (isFull ? 2.8 : 1.8)) * 2;
+      const rad = p.radius || (isFull ? 2.8 : 1.8);
       return {
         id: p.id !== undefined ? p.id : idx,
         index: idx,
@@ -1771,7 +1781,7 @@ const progress = clamp(
    */
   _enforceChassisOBBContainment(car) {
     updateCarBasis(car);
-    const centerSdf = this.evalArenaSDF(car.position.x, car.position.y, car.position.z);
+    const centerSdf = this.evalArenaSDFForCars(car.position.x, car.position.y, car.position.z);
     const upDotCenterN = car.up.x * centerSdf.nx + car.up.y * centerSdf.ny + car.up.z * centerSdf.nz;
     const isGoalSurface =
   centerSdf.surfaceType === 'goal' ||
@@ -1811,7 +1821,7 @@ if (
         car.up.z * s.ly +
         car.forward.z * s.lz;
 
-      const ptSdf = this.evalArenaSDF(wx, wy, wz);
+      const ptSdf = this.evalArenaSDFForCars(wx, wy, wz);
       if (ptSdf.dist < minDist) {
         minDist = ptSdf.dist;
         minNX = ptSdf.nx;
@@ -1874,7 +1884,7 @@ if (
     const boostMult = clamp(safeFinite(this.mutators.boostStrength, 1.0), 0.3, 3.0);
 
     // 1. Evaluate Arena SDF at Car Center of Mass
-    const sdfCenter = this.evalArenaSDF(car.position.x, car.position.y, car.position.z);
+    const sdfCenter = this.evalArenaSDFForCars(car.position.x, car.position.y, car.position.z);
     car.surfaceDist = sdfCenter.dist;
     car.surfaceType = sdfCenter.surfaceType;
 
@@ -1910,7 +1920,7 @@ if (
         car.wheelWorldPositions[w].y = wy;
         car.wheelWorldPositions[w].z = wz;
 
-        const wSdf = this.evalArenaSDF(wx, wy, wz);
+        const wSdf = this.evalArenaSDFForCars(wx, wy, wz);
         // Ray distance along local -up from wheel center to surface
         const restLength = wSpec.radius + 0.12;
         const wheelDist = wSdf.dist;
@@ -2435,7 +2445,7 @@ if (
 
     this._enforceChassisOBBContainment(car);
 
-    const postSdf = this.evalArenaSDF(car.position.x, car.position.y, car.position.z);
+    const postSdf = this.evalArenaSDFForCars(car.position.x, car.position.y, car.position.z);
     const minCarClearance = 0.42;
     if (postSdf.dist < minCarClearance) {
       const push = minCarClearance - postSdf.dist;
@@ -3962,7 +3972,7 @@ if (
 
       if (!c.demolished) {
         this._enforceChassisOBBContainment(c);
-        const sdf = this.evalArenaSDF(c.position.x, c.position.y, c.position.z);
+        const sdf = this.evalArenaSDFForCars(c.position.x, c.position.y, c.position.z);
         if (sdf.dist < 0.42) {
           const push = 0.42 - sdf.dist;
           c.position.x += sdf.nx * push;
