@@ -342,6 +342,8 @@ function canRegisterAchievement(evt) {
 
       case 'AWARD': {
 
+        recordMatchPoints(evt.carId, Number(evt.points));
+
         // Fallback for generic awards.
         if (
           evt.type !== 'GOAL' &&
@@ -405,9 +407,16 @@ function resetMatchStats() {
       shotsOnGoal: 0,
       saves: 0,
       demolitions: 0,
-      touches: 0
+      touches: 0,
+      points: 0
     };
   }
+}
+
+function recordMatchPoints(carId, points) {
+  if (!carId || !Number.isFinite(points) || points <= 0) return;
+  const stats = matchStatsByCarId[carId];
+  if (stats) stats.points += points;
 }
 
 function recordMatchStat(carId, statName) {
@@ -541,6 +550,7 @@ function showMatchResults() {
     score.orange > score.blue ? 'orange' :
     'draw';
 
+  const touchDivisor = physics.mode === '1v1' ? 4 : 3;
   const players = physics.cars.map((car) => {
     const stats = matchStatsByCarId[car.id] || {};
 
@@ -554,9 +564,14 @@ function showMatchResults() {
       shotsOnGoal: stats.shotsOnGoal || 0,
       saves: stats.saves || 0,
       demolitions: stats.demolitions || 0,
-      touches: stats.touches || 0
+      touches: stats.touches || 0,
+      points: (stats.points || 0) + (stats.touches || 0) / touchDivisor
     };
   });
+  const highestPoints = Math.max(0, ...players.map((player) => player.points));
+  for (const player of players) {
+    player.isMvp = highestPoints > 0 && player.points === highestPoints;
+  }
 
   // Preserve a final snapshot before displaying the screen.
   finalMatchResult = {
