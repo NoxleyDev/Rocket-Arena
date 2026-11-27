@@ -27,15 +27,15 @@ export const MATCH_STATES = Object.freeze({
 });
 
 export const ARENA_CONSTANTS = Object.freeze({
-  HALF_WIDTH: 60.0,
-  HEIGHT: 40.0,
-  HALF_LENGTH: 100.0,
-  R_FILLET: 8.0,
-  R_CORNER: 16.0,
-  GOAL_HALF_WIDTH: 14.0,
-  GOAL_HEIGHT: 11.0,
-  GOAL_DEPTH: 12.0,
-  R_POST: 0.45,
+  HALF_WIDTH: 120.0,
+  HEIGHT: 80.0,
+  HALF_LENGTH: 200.0,
+  R_FILLET: 16.0,
+  R_CORNER: 32.0,
+  GOAL_HALF_WIDTH: 28.0,
+  GOAL_HEIGHT: 22.0,
+  GOAL_DEPTH: 24.0,
+  R_POST: 0.90,
   BALL_RADIUS: 3.20
 });
 
@@ -47,29 +47,29 @@ export const DEFAULT_BOOST_PAD_LAYOUT = Object.freeze([
   { id: 3, type: 'full', x: 50, y: 0, z: 0, boost: 100, respawn: 10.0, radius: 2.8 },
   { id: 4, type: 'full', x: -48, y: 0, z: 80, boost: 100, respawn: 10.0, radius: 2.8 },
   { id: 5, type: 'full', x: 48, y: 0, z: 80, boost: 100, respawn: 10.0, radius: 2.8 },
-  // 22 Small Boost Pads (12% boost, 4.0s respawn, radius 1.8m)
-  { id: 6, type: 'small', x: 0, y: 0, z: -84, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 7, type: 'small', x: -18, y: 0, z: -76, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 8, type: 'small', x: 18, y: 0, z: -76, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 9, type: 'small', x: -30, y: 0, z: -60, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 10, type: 'small', x: 0, y: 0, z: -60, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 11, type: 'small', x: 30, y: 0, z: -60, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 12, type: 'small', x: -16, y: 0, z: -40, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 13, type: 'small', x: 16, y: 0, z: -40, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 14, type: 'small', x: -36, y: 0, z: -24, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 15, type: 'small', x: 0, y: 0, z: -24, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 16, type: 'small', x: 36, y: 0, z: -24, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 17, type: 'small', x: -36, y: 0, z: 24, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 18, type: 'small', x: 0, y: 0, z: 24, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 19, type: 'small', x: 36, y: 0, z: 24, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 20, type: 'small', x: -16, y: 0, z: 40, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 21, type: 'small', x: 16, y: 0, z: 40, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 22, type: 'small', x: -30, y: 0, z: 60, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 23, type: 'small', x: 0, y: 0, z: 60, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 24, type: 'small', x: 30, y: 0, z: 60, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 25, type: 'small', x: -18, y: 0, z: 76, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 26, type: 'small', x: 18, y: 0, z: 76, boost: 12, respawn: 4.0, radius: 1.8 },
-  { id: 27, type: 'small', x: 0, y: 0, z: 84, boost: 12, respawn: 4.0, radius: 1.8 }
+  // 22 Small Boost Pads (24% boost, 4.0s respawn, radius 1.8m)
+  { id: 6, type: 'small', x: 0, y: 0, z: -84, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 7, type: 'small', x: -18, y: 0, z: -76, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 8, type: 'small', x: 18, y: 0, z: -76, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 9, type: 'small', x: -30, y: 0, z: -60, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 10, type: 'small', x: 0, y: 0, z: -60, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 11, type: 'small', x: 30, y: 0, z: -60, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 12, type: 'small', x: -16, y: 0, z: -40, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 13, type: 'small', x: 16, y: 0, z: -40, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 14, type: 'small', x: -36, y: 0, z: -24, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 15, type: 'small', x: 0, y: 0, z: -24, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 16, type: 'small', x: 36, y: 0, z: -24, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 17, type: 'small', x: -36, y: 0, z: 24, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 18, type: 'small', x: 0, y: 0, z: 24, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 19, type: 'small', x: 36, y: 0, z: 24, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 20, type: 'small', x: -16, y: 0, z: 40, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 21, type: 'small', x: 16, y: 0, z: 40, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 22, type: 'small', x: -30, y: 0, z: 60, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 23, type: 'small', x: 0, y: 0, z: 60, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 24, type: 'small', x: 30, y: 0, z: 60, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 25, type: 'small', x: -18, y: 0, z: 76, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 26, type: 'small', x: 18, y: 0, z: 76, boost: 24, respawn: 4.0, radius: 1.8 },
+  { id: 27, type: 'small', x: 0, y: 0, z: 84, boost: 24, respawn: 4.0, radius: 1.8 }
 ]);
 
 export const MOVEMENTS_MANIFEST = Object.freeze([
@@ -624,14 +624,14 @@ const CHASSIS_COLLISION_SAMPLES_LOCAL = Object.freeze([
 
 const KICKOFF_SLOTS = Object.freeze({
   blue: [
-    { x: 0.0, y: 0.42, z: -46.0, yaw: 0.0 },
-    { x: -22.0, y: 0.42, z: -38.0, yaw: 0.42 },
-    { x: 22.0, y: 0.42, z: -38.0, yaw: -0.42 }
+    { x: 0.0, y: 0.42, z: -92.0, yaw: 0.0 },
+    { x: -44.0, y: 0.42, z: -76.0, yaw: 0.42 },
+    { x: 44.0, y: 0.42, z: -76.0, yaw: -0.42 }
   ],
   orange: [
-    { x: 0.0, y: 0.42, z: 46.0, yaw: Math.PI },
-    { x: 22.0, y: 0.42, z: 38.0, yaw: Math.PI + 0.42 },
-    { x: -22.0, y: 0.42, z: 38.0, yaw: Math.PI - 0.42 }
+    { x: 0.0, y: 0.42, z: 92.0, yaw: Math.PI },
+    { x: 44.0, y: 0.42, z: 76.0, yaw: Math.PI + 0.42 },
+    { x: -44.0, y: 0.42, z: 76.0, yaw: Math.PI - 0.42 }
   ]
 });
 
@@ -693,13 +693,13 @@ export class PhysicsWorld {
 
     // Initialize 28 Boost Pads
     this.boostPads = padLayout.map((p, idx) => {
-      const px = p.x !== undefined ? p.x : (Array.isArray(p.position) ? p.position[0] : p.position?.x || 0);
+      const px = (p.x !== undefined ? p.x : (Array.isArray(p.position) ? p.position[0] : p.position?.x || 0)) * 2;
       const py = p.y !== undefined ? p.y : (Array.isArray(p.position) ? p.position[1] : p.position?.y || 0);
-      const pz = p.z !== undefined ? p.z : (Array.isArray(p.position) ? p.position[2] : p.position?.z || 0);
+      const pz = (p.z !== undefined ? p.z : (Array.isArray(p.position) ? p.position[2] : p.position?.z || 0)) * 2;
       const isFull = p.type === 'full' || p.boost === 100;
       const boostAmt = p.boost || (isFull ? 100 : 12);
       const respawnSec = p.respawn || (isFull ? 10.0 : 4.0);
-      const rad = p.radius || (isFull ? 2.8 : 1.8);
+      const rad = (p.radius || (isFull ? 2.8 : 1.8)) * 2;
       return {
         id: p.id !== undefined ? p.id : idx,
         index: idx,
@@ -784,7 +784,7 @@ export class PhysicsWorld {
       lastTouchTime: -999,
       seamColor: '#00f0ff',
       touchCount: 0,
-      touchTarget: 20,
+      touchTarget: 10,
       chargedTouchReady: false,
       chargedSpeedCapActive: false,
       hitStopTimer: 0,
@@ -961,7 +961,7 @@ export class PhysicsWorld {
 
     this.mode = normalized;
     if (this.ball) {
-      this.ball.touchTarget = normalized === '3v3' ? 50 : (normalized === '2v2' ? 40 : 20);
+      this.ball.touchTarget = normalized === '3v3' ? 30 : (normalized === '2v2' ? 20 : 10);
       this.ball.touchCount = 0;
       this.ball.chargedTouchReady = false;
       this.ball.chargedSpeedCapActive = false;
@@ -1109,7 +1109,7 @@ export class PhysicsWorld {
     this.ball.lastTouchCarId = null;
     this.ball.seamColor = '#00f0ff';
     this.ball.touchCount = 0;
-    this.ball.touchTarget = this.mode === '3v3' ? 50 : (this.mode === '2v2' ? 40 : 20);
+    this.ball.touchTarget = this.mode === '3v3' ? 30 : (this.mode === '2v2' ? 20 : 10);
     this.ball.chargedTouchReady = false;
     this.ball.chargedSpeedCapActive = false;
     this.ball.firstTouchAwarded = false;
@@ -2717,12 +2717,12 @@ if (
         hitDirZ /= hLen;
 
         // Check if ball was heading into defender's own goal before hit (for EPIC SAVE +75 detection)
-        const ownGoalZ = car.team === 'blue' ? -100.0 : 100.0;
+        const ownGoalZ = car.team === 'blue' ? -ARENA_CONSTANTS.HALF_LENGTH : ARENA_CONSTANTS.HALF_LENGTH;
         const distToOwnGoal = Math.hypot(ball.position.x, ball.position.z - ownGoalZ);
         const movingTowardOwnGoal =
           (car.team === 'blue' && ball.velocity.z < -8.0) ||
           (car.team === 'orange' && ball.velocity.z > 8.0);
-        const wasDangerousShot = distToOwnGoal <= 22.0 && movingTowardOwnGoal && Math.abs(ball.position.x) < 16.0;
+        const wasDangerousShot = distToOwnGoal <= 44.0 && movingTowardOwnGoal && Math.abs(ball.position.x) < 32.0;
 
         // Compute hit launch speed with 1.35x power multiplier when mid-Dodge-Flip or Supersonic
         const powerMultiplier = (car.isFlipping || car.isSupersonic) ? 1.35 : 1.0;
@@ -2788,8 +2788,8 @@ if (
           ball.firstTouchAwarded = true;
           this.emitEvent('AWARD', {
             type: 'FIRST TOUCH',
-            label: 'FIRST TOUCH +10',
-            points: 10,
+            label: 'FIRST TOUCH',
+            points: 15,
             carId: car.id,
             team: car.team
           });
@@ -2797,7 +2797,7 @@ if (
         if (ball.position.y >= 8.5 && !car.onGround) {
           this.emitEvent('AWARD', {
             type: 'AERIAL HIT',
-            label: 'AERIAL HIT +50',
+            label: 'AERIAL HIT',
             points: 50,
             carId: car.id,
             team: car.team
@@ -2806,23 +2806,23 @@ if (
         if (wasDangerousShot) {
           this.emitEvent('AWARD', {
             type: 'EPIC SAVE',
-            label: 'EPIC SAVE +75',
+            label: 'EPIC SAVE',
             points: 75,
             carId: car.id,
             team: car.team
           });
         } else {
           // Check SHOT ON GOAL +20 if ball velocity points toward opponent goal aperture
-          const oppGoalZ = car.team === 'blue' ? 100.0 : -100.0;
+          const oppGoalZ = car.team === 'blue' ? ARENA_CONSTANTS.HALF_LENGTH : -ARENA_CONSTANTS.HALF_LENGTH;
           const dzGoal = oppGoalZ - ball.position.z;
           if (dzGoal * ball.velocity.z > 0 && Math.abs(ball.velocity.z) > 16.0) {
             const tGoal = dzGoal / ball.velocity.z;
             if (tGoal > 0 && tGoal < 3.5) {
               const predX = ball.position.x + ball.velocity.x * tGoal;
-              if (Math.abs(predX) < 13.5) {
+              if (Math.abs(predX) < 27.0) {
                 this.emitEvent('AWARD', {
                   type: 'SHOT ON GOAL',
-                  label: 'SHOT ON GOAL +20',
+                  label: 'SHOT ON GOAL',
                   points: 20,
                   carId: car.id,
                   team: car.team
@@ -2944,7 +2944,7 @@ if (
     });
     this.emitEvent('AWARD', {
       type: 'DEMOLITION',
-      label: 'DEMOLITION +30',
+      label: 'DEMOLITION',
       points: 30,
       carId: attacker.id,
       team: attacker.team
@@ -3008,8 +3008,8 @@ if (
     }
 
     const b = this.ball;
-    // [SPEC PATCH #10] When Math.abs(ball.z) >= 100.8 && Math.abs(ball.x) < 13.5 && ball.y < 10.6
-    if (Math.abs(b.position.z) >= 100.8 && Math.abs(b.position.x) < 13.5 && b.position.y < 10.6) {
+    // [SPEC PATCH #10] When Math.abs(ball.z) >= 201.6 && Math.abs(ball.x) < 13.5 && ball.y < 10.6
+    if (Math.abs(b.position.z) >= 201.6 && Math.abs(b.position.x) < 27.0 && b.position.y < 21.2) {
       const scoringTeam = b.position.z > 0 ? 'blue' : 'orange';
       this._triggerGoalExplosion(scoringTeam);
     }
@@ -3043,9 +3043,9 @@ if (
       Math.round(Math.hypot(this.ball.velocity.x, this.ball.velocity.y, this.ball.velocity.z) * 3.6)
     );
     const explosionCenter = {
-      x: clamp(this.ball.position.x, -12, 12),
-      y: clamp(this.ball.position.y, 2.5, 9.0),
-      z: scoringTeam === 'blue' ? 102.0 : -102.0
+      x: clamp(this.ball.position.x, -24, 24),
+      y: clamp(this.ball.position.y, 5.0, 18.0),
+      z: scoringTeam === 'blue' ? ARENA_CONSTANTS.HALF_LENGTH + 4.0 : -(ARENA_CONSTANTS.HALF_LENGTH + 4.0)
     };
 
     // Apply radial supernova shockwave blast impulse (45 m/s outward + +18 m/s upward + angular tumble) to all cars!
@@ -3060,7 +3060,7 @@ if (
       ry /= dist;
       rz /= dist;
 
-      const falloff = clamp(1.25 - dist / 180.0, 0.45, 1.15);
+      const falloff = clamp(1.25 - dist / 360.0, 0.45, 1.15);
       car.onGround = false;
       car.isGrounded = false;
       car.hasJumped = true;
@@ -3097,7 +3097,8 @@ if (
     this.emitEvent('AWARD', {
       type: 'GOAL',
       label: `GOAL! (${shotSpeedKph} KPH)`,
-      points: 100,
+      points: 150,
+      carId: this.lastGoalInfo.scorerCarId,
       team: scoringTeam,
       shotSpeedKph
     });
@@ -3119,7 +3120,7 @@ if (
       }
 
       // Closest car to offensive ball vector is Striker; second/others are Goalie/Support
-      const oppGoalZ = teamName === 'blue' ? 100.0 : -100.0;
+      const oppGoalZ = teamName === 'blue' ? ARENA_CONSTANTS.HALF_LENGTH : -ARENA_CONSTANTS.HALF_LENGTH;
       let bestStriker = teamCars[0];
       let bestScore = Infinity;
 
@@ -3159,8 +3160,8 @@ if (
     const skillHorizon = diff === 'all-star' || diff === 'allstar' ? 1.0 : diff === 'pro' ? 0.78 : 0.48;
     const allowBoost = diff !== 'rookie';
 
-    const oppGoalZ = car.team === 'blue' ? 102.0 : -102.0;
-    const ownGoalZ = car.team === 'blue' ? -100.0 : 100.0;
+    const oppGoalZ = car.team === 'blue' ? ARENA_CONSTANTS.HALF_LENGTH + 4.0 : -(ARENA_CONSTANTS.HALF_LENGTH + 4.0);
+    const ownGoalZ = car.team === 'blue' ? -ARENA_CONSTANTS.HALF_LENGTH : ARENA_CONSTANTS.HALF_LENGTH;
 
     const ballX = this.ball.position.x;
     const ballY = this.ball.position.y;
@@ -3327,14 +3328,14 @@ if (
     }
 
     // Clamp target within playable interior
-    targetX = clamp(targetX, -52.0, 52.0);
-    targetZ = clamp(targetZ, -95.0, 95.0);
+    targetX = clamp(targetX, -104.0, 104.0);
+    targetZ = clamp(targetZ, -190.0, 190.0);
 
     // [SPEC PATCH #14] Goal-chamber escape navigation: if inside either goal recess (|z| > 95m),
     // steer directly toward the center of the goal aperture (x = 0) first.
-    if (Math.abs(car.position.z) > 95.0) {
+    if (Math.abs(car.position.z) > 190.0) {
       targetX = 0.0;
-      targetZ = Math.sign(car.position.z) * 84.0;
+      targetZ = Math.sign(car.position.z) * 168.0;
       shouldDodgeStrike = false;
       car._reversingJTurn = false;
     }
@@ -3360,7 +3361,7 @@ if (
       D < 11.0 &&
       vLong < 7.0 &&
       tacticalState !== 'KICKOFF_BLITZ' &&
-      Math.abs(car.position.z) <= 95.0
+      Math.abs(car.position.z) <= 190.0
     ) {
       car._reversingJTurn = true;
     } else if (car._reversingJTurn && (absTheta < 1.05 || D > 13.5)) {
@@ -3890,14 +3891,14 @@ if (
       !Number.isFinite(b.velocity.x) ||
       !Number.isFinite(b.velocity.y) ||
       !Number.isFinite(b.velocity.z) ||
-      Math.abs(b.position.x) > 65.0 ||
-      b.position.y < -2.0 ||
-      b.position.y > 45.0 ||
-      Math.abs(b.position.z) > 116.0
+      Math.abs(b.position.x) > 130.0 ||
+      b.position.y < -4.0 ||
+      b.position.y > 90.0 ||
+      Math.abs(b.position.z) > 232.0
     ) {
-      b.position.x = clamp(safeFinite(b.position.x, 0), -56.0, 56.0);
-      b.position.y = clamp(safeFinite(b.position.y, 3.2), 3.2, 36.0);
-      b.position.z = clamp(safeFinite(b.position.z, 0), -108.0, 108.0);
+      b.position.x = clamp(safeFinite(b.position.x, 0), -112.0, 112.0);
+      b.position.y = clamp(safeFinite(b.position.y, 3.2), 3.2, 72.0);
+      b.position.z = clamp(safeFinite(b.position.z, 0), -216.0, 216.0);
       b.velocity.x = clamp(safeFinite(b.velocity.x, 0), -50.0, 50.0);
       b.velocity.y = clamp(safeFinite(b.velocity.y, 0), -50.0, 50.0);
       b.velocity.z = clamp(safeFinite(b.velocity.z, 0), -50.0, 50.0);
@@ -3925,14 +3926,14 @@ if (
         !Number.isFinite(c.velocity.x) ||
         !Number.isFinite(c.velocity.y) ||
         !Number.isFinite(c.velocity.z) ||
-        Math.abs(c.position.x) > 65.0 ||
-        c.position.y < -2.0 ||
-        c.position.y > 45.0 ||
-        Math.abs(c.position.z) > 116.0
+        Math.abs(c.position.x) > 130.0 ||
+        c.position.y < -4.0 ||
+        c.position.y > 90.0 ||
+        Math.abs(c.position.z) > 232.0
       ) {
-        c.position.x = clamp(safeFinite(c.position.x, 0), -59.0, 59.0);
-        c.position.y = clamp(safeFinite(c.position.y, 0.42), 0.42, 39.5);
-        c.position.z = clamp(safeFinite(c.position.z, 0), -110.0, 110.0);
+        c.position.x = clamp(safeFinite(c.position.x, 0), -118.0, 118.0);
+        c.position.y = clamp(safeFinite(c.position.y, 0.42), 0.42, 79.0);
+        c.position.z = clamp(safeFinite(c.position.z, 0), -220.0, 220.0);
         c.velocity.x = clamp(safeFinite(c.velocity.x, 0), -46.0, 46.0);
         c.velocity.y = clamp(safeFinite(c.velocity.y, 0), -46.0, 46.0);
         c.velocity.z = clamp(safeFinite(c.velocity.z, 0), -46.0, 46.0);
