@@ -81,7 +81,7 @@ export const BOOST_PAD_LAYOUT = [
     x,
     y,
     z,
-    boost: 12,
+    boost: 24,
     respawnTime: 4.0,
     respawn: 4.0,
     radius: 1.8
@@ -245,7 +245,7 @@ export function getBottomFilletRadiusAt(x, z) {
  * @param {number} z - World Z coordinate in meters ([-112, +112])
  * @returns {{ dist: number, nx: number, ny: number, nz: number, surfaceType: 'floor' | 'ramp' | 'wall' | 'ceiling' | 'goal_box' | 'goal_post' }}
  */
-export function evalArenaSDF(x, y, z) {
+function evalArenaSDFBase(x, y, z) {
   // Sanitize non-finite inputs safely
   if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) {
     return { dist: 0.0, nx: 0.0, ny: 1.0, nz: 0.0, surfaceType: 'floor' };
@@ -471,6 +471,12 @@ export function evalArenaSDF(x, y, z) {
   }
 
   return { dist, nx, ny, nz, surfaceType };
+}
+
+export function evalArenaSDF(x, y, z) {
+  const scale = 2;
+  const base = evalArenaSDFBase(x / scale, y / scale, z / scale);
+  return { ...base, dist: base.dist * scale };
 }
 
 // ============================================================================
@@ -2051,12 +2057,12 @@ function buildStadiumLightingRig(THREE, rootGroup) {
   dirLight.position.set(48, 82, 36);
   dirLight.castShadow = true;
   dirLight.shadow.mapSize.set(2048, 2048);
-  dirLight.shadow.camera.left = -75;
-  dirLight.shadow.camera.right = 75;
-  dirLight.shadow.camera.top = 115;
-  dirLight.shadow.camera.bottom = -115;
+  dirLight.shadow.camera.left = -150;
+  dirLight.shadow.camera.right = 150;
+  dirLight.shadow.camera.top = 220;
+  dirLight.shadow.camera.bottom = -220;
   dirLight.shadow.camera.near = 10;
-  dirLight.shadow.camera.far = 190;
+  dirLight.shadow.camera.far = 400;
   dirLight.shadow.bias = -0.0004;
   lightsGroup.add(dirLight);
 
@@ -2066,11 +2072,11 @@ function buildStadiumLightingRig(THREE, rootGroup) {
   lightsGroup.add(fillLight);
 
   // Tier 3: Blue Goal Floodlight (#0088ff at Z = -98) & Orange Goal Floodlight (#ff6600 at Z = +98)
-  const blueGoalLight = new THREE.PointLight(0x0088ff, 3.6, 68, 1.4);
+  const blueGoalLight = new THREE.PointLight(0x0088ff, 3.6, 136, 1.4);
   blueGoalLight.position.set(0, 13.5, -98.0);
   lightsGroup.add(blueGoalLight);
 
-  const orangeGoalLight = new THREE.PointLight(0xff6600, 3.6, 68, 1.4);
+  const orangeGoalLight = new THREE.PointLight(0xff6600, 3.6, 136, 1.4);
   orangeGoalLight.position.set(0, 13.5, +98.0);
   lightsGroup.add(orangeGoalLight);
 
@@ -2097,6 +2103,7 @@ function buildStadiumLightingRig(THREE, rootGroup) {
 export function createArenaEnvironment(THREE, scene) {
   const group = new THREE.Group();
   group.name = 'DFH_NeoDome_Arena';
+  group.scale.setScalar(2);
 
   // -------------------------------------------------------------------------
   // Zone 3a — Mowed Turf Pitch (renderOrder = 0)
