@@ -100,7 +100,7 @@ function smoothstep(edge0, edge1, x) {
  * Helper: Compute exact 3D distance and outward normal from the 3-segment goal frame
  * (Left Post at x = -14, Right Post at x = +14, Crossbar at y = 11) at z = zGoal.
  */
-function evalGoalFrameCapsule(x, y, z, zGoal, postRadius) {
+function evalGoalFrameCapsule(x, y, z, zGoal, postRadius, includeCrossbar = true) {
   const gw = ARENA_CONSTANTS.goalHalfWidth; // 14.0
   const gh = ARENA_CONSTANTS.goalHeight;    // 11.0
 
@@ -136,7 +136,7 @@ function evalGoalFrameCapsule(x, y, z, zGoal, postRadius) {
     dy = dry;
     dz = drz;
   }
-  if (distSqT < minSq) {
+  if (includeCrossbar && distSqT < minSq) {
     minSq = distSqT;
     dx = dtx;
     dy = dty;
@@ -245,7 +245,7 @@ export function getBottomFilletRadiusAt(x, z) {
  * @param {number} z - World Z coordinate in meters ([-112, +112])
  * @returns {{ dist: number, nx: number, ny: number, nz: number, surfaceType: 'floor' | 'ramp' | 'wall' | 'ceiling' | 'goal_box' | 'goal_post' }}
  */
-function evalArenaSDFBase(x, y, z) {
+function evalArenaSDFBase(x, y, z, ignoreGoalCrossbar = false) {
   // Sanitize non-finite inputs safely
   if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) {
     return { dist: 0.0, nx: 0.0, ny: 1.0, nz: 0.0, surfaceType: 'floor' };
@@ -267,7 +267,7 @@ function evalArenaSDFBase(x, y, z) {
 
   // Evaluate 3D capsule distance to the nearest goal frame (posts + crossbar) when near Z = ±100
   const nearGoalPlane = az > 88.0 && ax < gw + 6.0 && y < gh + 6.0;
-  const frameHit = nearGoalPlane ? evalGoalFrameCapsule(x, y, z, zGoal, rPost) : null;
+  const frameHit = nearGoalPlane ? evalGoalFrameCapsule(x, y, z, zGoal, rPost, !ignoreGoalCrossbar) : null;
 
     // -------------------------------------------------------------------------
   // REGION 1: Inside or penetrating the Recessed Goal Chamber (|z| > 100.0)
@@ -476,6 +476,12 @@ function evalArenaSDFBase(x, y, z) {
 export function evalArenaSDF(x, y, z) {
   const scale = 2;
   const base = evalArenaSDFBase(x / scale, y / scale, z / scale);
+  return { ...base, dist: base.dist * scale };
+}
+
+export function evalArenaSDFForCars(x, y, z) {
+  const scale = 2;
+  const base = evalArenaSDFBase(x / scale, y / scale, z / scale, true);
   return { ...base, dist: base.dist * scale };
 }
 
@@ -1649,6 +1655,7 @@ function buildBoostPadsNetwork(THREE, rootGroup) {
     const isFull = padDef.type === 'full';
     const holder = new THREE.Group();
     holder.position.set(padDef.x, 0.02, padDef.z);
+    holder.scale.setScalar(0.5);
 
     // 1. Metallic Base Pedestal (renderOrder = 1)
     const baseMesh = new THREE.Mesh(isFull ? fullBaseGeo : smallBaseGeo, baseMetalMat);
