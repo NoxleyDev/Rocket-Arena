@@ -3,6 +3,7 @@ import {
   ARENA_CONSTANTS,
   BOOST_PAD_LAYOUT,
   evalArenaSDF,
+  evalArenaSDFForCars,
   createArenaEnvironment
 } from './arena-and-environment.js';
 import {
@@ -390,6 +391,7 @@ function canRegisterAchievement(evt) {
   const physics = new PhysicsWorld({
     mode: '1v1',
     evalArenaSDF,
+    evalArenaSDFForCars,
     boostPadLayout: BOOST_PAD_LAYOUT,
     onEvent: handlePhysicsEvent
   });
