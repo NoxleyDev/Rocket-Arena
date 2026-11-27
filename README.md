@@ -26,13 +26,15 @@ visuales, audio procedural y diferentes modos de juego.
 -   Estadio 3D DFH Neo-Dome con porterías, superficies curvas y
     plataformas de impulso.
 -   Vehículo Octane-RLX y pelota 3D.
--   Carga compartida del balón: una barra por toque, umbral de 20/40/50 según modo y golpe cargado con impulso x1,75 y aura naranja.
+-   Carga compartida del balón: una barra por toque, umbral de 10/20/30 según modo y golpe cargado con impulso x1,75 y aura naranja.
 -   Física de conducción, suspensión, saltos, giros, derrapes y
     propulsión.
 -   Conducción por el suelo, las paredes curvas y el techo de la arena.
 -   Transiciones redondeadas en las porterías; la conducción completa desde
     la rampa interior hasta el techo y la salida sobre el larguero sigue
     pendiente de verificación jugable.
+-   Estadísticas y puntuación individual por jugador o bot; el MVP se decide al final de la partida.
+-   Campo y porterías ampliados al doble, con plataformas de boost repartidas por la nueva superficie.
 -   Cámara Ball-Cam y Car-Cam.
 -   Repeticiones de gol con historial temporal e interpolación.
 -   Bots con distintos niveles de dificultad.
@@ -40,6 +42,10 @@ visuales, audio procedural y diferentes modos de juego.
 -   Compatibilidad con teclado, ratón y mandos compatibles con Gamepad
     API.
 -   Controles táctiles en dispositivos compatibles.
+
+La puntuación individual suma: First Touch (15), Aerial Hit (50), Epic Save (75), Shot on Goal (20), Demolition (30) y Goal (150). Al cierre, se añade la cantidad de toques dividida entre 4 en 1v1 o entre 3 en 2v2 y 3v3. El jugador o bot con más puntos recibe la etiqueta **MVP**; los empates pueden compartirla.
+
+Los boosts pequeños restauran un 24 % y los grandes restauran el 100 %. El campo y las porterías tienen el doble de tamaño, con colisiones, posiciones iniciales y zonas de gol ajustadas al nuevo espacio.
 
 ## Requisitos
 
