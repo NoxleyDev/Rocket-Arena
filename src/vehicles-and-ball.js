@@ -2474,7 +2474,7 @@ export function createSoccerBallMesh(THREEOrRadius = 3.20, maybeRadius = 3.20) {
       counterMaterial = new THREE.MeshBasicMaterial({ color: 0x030609, side: THREE.DoubleSide });
     }
 
-    const counter = new THREE.Mesh(new THREE.CircleGeometry(radius * 0.145, 48), counterMaterial);
+    const counter = new THREE.Mesh(new THREE.CircleGeometry(radius * 0.145 * 2.5, 48), counterMaterial);
     counter.name = i === 0 ? 'ballTouchChargeTopCounter' : 'ballTouchChargeBottomCounter';
     counter.position.y = i === 0 ? radius * 1.012 : -radius * 1.012;
     counter.rotation.x = i === 0 ? -Math.PI / 2 : Math.PI / 2;
@@ -2635,6 +2635,10 @@ export function updateSoccerBallVisuals(ballMesh, ballState = {}, dt = 1 / 60) {
       bar.scale.x = Math.max(0.12, segmentArc * 0.66);
     }
     ud.touchTarget = touchTarget;
+  }
+
+  for (let i = 0; i < ud.touchBars.length; i++) {
+    ud.touchBars[i].visible = i < touchCount;
   }
 
   const chargeColor = chargedTouchActive ? 0xff7a18 : 0x00f5e5;
