@@ -338,6 +338,17 @@ export class MatchResultsScreen {
           0 0 9px rgba(255,150,61,.6);
       }
 
+      #ra-match-results .ra-mvp-tag {
+        color: #07131b;
+        background: linear-gradient(100deg, #ffd166, #ff9f43);
+        border-radius: 999px;
+        padding: 2px 7px;
+        font-size: 8px;
+        font-weight: 900;
+        letter-spacing: .08em;
+        box-shadow: 0 0 10px rgba(255, 177, 66, .45);
+      }
+
       #ra-match-results .ra-self-tag {
         color: #74d7ff;
 
@@ -571,6 +582,7 @@ export class MatchResultsScreen {
                 ? '<span class="ra-self-tag">YOU</span>'
                 : ''
               }
+              ${player.isMvp ? '<span class="ra-mvp-tag">MVP</span>' : ''}
 
             </div>
           </td>
@@ -584,6 +596,7 @@ export class MatchResultsScreen {
           <td>${numberOrZero(player.demolitions)}</td>
 
           <td>${numberOrZero(player.touches)}</td>
+          <td>${(Number(player.points) || 0).toFixed(2).replace(/\.?0+$/, '')}</td>
         </tr>
       `;
 
@@ -667,13 +680,14 @@ export class MatchResultsScreen {
               <th>Saves</th>
               <th>Demolitions</th>
               <th>Touches</th>
+              <th>Points</th>
             </tr>
           </thead>
 
           <tbody>
             ${
               playerRows ||
-              '<tr><td colspan="6">No player statistics available.</td></tr>'
+              '<tr><td colspan="7">No player statistics available.</td></tr>'
             }
           </tbody>
 
