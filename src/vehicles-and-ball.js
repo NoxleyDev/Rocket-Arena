@@ -2429,25 +2429,6 @@ export function createSoccerBallMesh(THREEOrRadius = 3.20, maybeRadius = 3.20) {
   touchLine.renderOrder = 2;
   spinGroup.add(touchLine);
 
-  const touchBarMat = new THREE.MeshStandardMaterial({
-    color: 0x00f5e5,
-    emissive: 0x00f5e5,
-    emissiveIntensity: 2.4,
-    roughness: 0.24,
-    metalness: 0.18,
-    toneMapped: false
-  });
-  const touchBarGeo = new THREE.BoxGeometry(1, Math.max(0.12, radius * 0.045), Math.max(0.09, radius * 0.032));
-  const touchBars = [];
-  for (let i = 0; i < 50; i++) {
-    const bar = new THREE.Mesh(touchBarGeo, touchBarMat);
-    bar.name = `ballTouchChargeBar_${i + 1}`;
-    bar.visible = false;
-    bar.renderOrder = 3;
-    spinGroup.add(bar);
-    touchBars.push(bar);
-  }
-
   const touchCounterCanvases = [];
   const touchCounterTextures = [];
   const touchCounters = [];
@@ -2562,8 +2543,6 @@ export function createSoccerBallMesh(THREEOrRadius = 3.20, maybeRadius = 3.20) {
     seamCoreMat,
     ledNodeMat,
     ledNodes,
-    touchBars,
-    touchBarMat,
     touchCounters,
     touchCounterCanvases,
     touchCounterTextures,
@@ -2622,28 +2601,6 @@ export function updateSoccerBallVisuals(ballMesh, ballState = {}, dt = 1 / 60) {
   const touchCount = Math.max(0, Math.min(touchTarget, Math.floor(Number(ballState.touchCount) || 0)));
   const chargedTouchActive = touchCount >= touchTarget;
 
-  if (ud.touchTarget !== touchTarget) {
-    const segmentArc = (Math.PI * 2 * radius) / touchTarget;
-    for (let i = 0; i < ud.touchBars.length; i++) {
-      const bar = ud.touchBars[i];
-      bar.visible = i < touchTarget;
-      if (!bar.visible) continue;
-      const angle = ((i + 0.5) / touchTarget) * Math.PI * 2;
-      const ringRadius = radius * 1.028;
-      bar.position.set(Math.sin(angle) * ringRadius, 0, Math.cos(angle) * ringRadius);
-      bar.rotation.set(0, angle, 0);
-      bar.scale.x = Math.max(0.12, segmentArc * 0.66);
-    }
-    ud.touchTarget = touchTarget;
-  }
-
-  for (let i = 0; i < ud.touchBars.length; i++) {
-    ud.touchBars[i].visible = i < touchCount;
-  }
-
-  const chargeColor = chargedTouchActive ? 0xff7a18 : 0x00f5e5;
-  ud.touchBarMat.color.setHex(chargeColor);
-  ud.touchBarMat.emissive.setHex(chargeColor);
   ud.touchAuraPhase += safeDt * 3.4;
   ud.touchAura.material.opacity = chargedTouchActive
     ? 0.10 + 0.045 * (0.5 + 0.5 * Math.sin(ud.touchAuraPhase))
